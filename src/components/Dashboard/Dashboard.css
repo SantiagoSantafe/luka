@@ -1,0 +1,185 @@
+/* Dashboard.css */
+.dashboard-container {
+    max-width: 100%;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  /* Header styles */
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-align: center;
+    flex-grow: 1;
+  }
+  
+  .back-button, .menu-button {
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 8px;
+  }
+  
+  /* Greeting section */
+  .greeting-section {
+    padding: 20px 16px;
+    text-align: center;
+  }
+  
+  .greeting-section h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.25rem;
+  }
+  
+  /* Credit score circle */
+  .credit-score-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+  }
+  
+  .credit-score-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .credit-score-inner {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #aaa;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .credit-score-label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .credit-score-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-decoration: underline;
+  }
+  
+  .credit-score-message {
+    font-size: 0.9rem;
+  }
+  
+  /* Credit info section */
+  .credit-info-section {
+    padding: 20px 16px;
+  }
+  
+  .credit-info-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Credit details grid */
+  .credit-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .credit-detail-card {
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80px;
+  }
+  
+  .credit-detail-card.dark {
+    background-color: #333;
+    color: white;
+  }
+  
+  .credit-detail-card.light {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .detail-label {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .detail-value {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  /* Action buttons */
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .action-button {
+    padding: 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .action-button.primary {
+    background-color: #333;
+    color: white;
+  }
+  
+  .action-button.secondary {
+    background-color: #333;
+    color: white;
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .credit-score-circle {
+      width: 180px;
+      height: 180px;
+    }
+    
+    .credit-score-inner {
+      width: 160px;
+      height: 160px;
+    }
+    
+    .credit-details-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }

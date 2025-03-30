@@ -1,0 +1,61 @@
+/* Home.css */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 70vh;
+  }
+  
+  .logo {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #000;
+  }
+  
+  .tagline {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    color: #333;
+  }
+  
+  .tagline p {
+    margin: 0.5rem 0;
+  }
+  
+  .cta-container {
+    width: 100%;
+    margin-top: auto;
+    padding-bottom: 40px;
+  }
+  
+  .cta-button {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    background-color: #212121;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #000;
+  }
