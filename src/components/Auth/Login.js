@@ -41,7 +41,7 @@ const Login = () => {
             onClick={() => handleSocialLogin('Google')}
             disabled={loading}
           >
-            <img src={`${process.env.PUBLIC_URL}/assets/google-icon.svg`} alt="Google" className="social-icon" />
+            <img src={`${process.env.PUBLIC_URL}/assets/Google-icon.svg`} alt="Google" className="social-icon" />
             Continue with Google
           </button>
           
@@ -50,7 +50,7 @@ const Login = () => {
             onClick={() => handleSocialLogin('Facebook')}
             disabled={loading}
           >
-            <img src={`${process.env.PUBLIC_URL}/assets/facebook-icon.svg`} alt="Facebook" className="social-icon" />
+            <img src={`${process.env.PUBLIC_URL}/assets/Facebook_f_logo_(2019).svg`} alt="Facebook" className="social-icon" />
             Continue with Facebook
           </button>
         </div>
