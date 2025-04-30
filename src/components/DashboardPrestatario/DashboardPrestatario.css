@@ -1,0 +1,317 @@
+/* Dashboard Prestatario Styles */
+
+:root {
+    --primary-color: #004d66;
+    --primary-light: #006680;
+    --primary-dark: #003b50;
+    --secondary-color: #99cc33;
+    --text-color: #333333;
+    --text-light: #666666;
+    --text-lighter: #999999;
+    --background-color: #f5f7fa;
+    --white: #ffffff;
+    --border-color: #e0e0e0;
+    --error-color: #e53935;
+    --success-color: #43a047;
+    --warning-color: #ffa000;
+    --dark-bg: #333333;
+    --light-bg: #e0e0e0;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.2s ease-in-out;
+    --border-radius: 8px;
+  }
+  
+  /* Main container */
+  .dashboard-container {
+    min-height: 100vh;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header */
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+  }
+  
+  .logo span {
+    color: var(--white);
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+  
+  .logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0;
+  }
+  
+  .user-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .settings-link, .logout-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    transition: var(--transition);
+  }
+  
+  .settings-link:hover, .logout-button:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+  }
+  
+  /* Main content */
+  .dashboard-content {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .welcome-section {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .welcome-message {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+  }
+  
+  /* Score Circle */
+  .score-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  
+  .score-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .score-content {
+    text-align: center;
+    width: 90%;
+  }
+  
+  .score-label {
+    font-size: 0.9rem;
+    color: var(--white);
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .score-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .score-description {
+    font-size: 0.9rem;
+    color: var(--white);
+    margin: 0;
+  }
+  
+  /* Loan Information Section */
+  .loan-info-section {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 1.5rem 0;
+  }
+  
+  .loan-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .loan-detail-card {
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+  }
+  
+  .loan-detail-card.dark {
+    background-color: var(--dark-bg);
+    color: var(--white);
+  }
+  
+  .loan-detail-card.light {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+  }
+  
+  .detail-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .detail-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .action-button {
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+  }
+  
+  .action-button.primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+  
+  .action-button.primary:hover {
+    background-color: var(--primary-light);
+  }
+  
+  .action-button.secondary {
+    background-color: var(--dark-bg);
+    color: var(--white);
+  }
+  
+  .action-button.secondary:hover {
+    background-color: #444444;
+  }
+  
+  /* Loading spinner */
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 77, 102, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .dashboard-header {
+      padding: 1rem;
+    }
+    
+    .dashboard-content {
+      padding: 1.5rem 1rem;
+    }
+    
+    .loan-details-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .score-circle {
+      width: 180px;
+      height: 180px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .welcome-message {
+      font-size: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 1.2rem;
+    }
+    
+    .score-circle {
+      width: 150px;
+      height: 150px;
+    }
+    
+    .score-value {
+      font-size: 1.3rem;
+    }
+    
+    .detail-value {
+      font-size: 1.2rem;
+    }
+    
+    .loan-info-section {
+      padding: 1.5rem;
+    }
+  }
