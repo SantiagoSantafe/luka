@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Home from './components/Home/Home';
+import ConfiguracionAvanzada from './components/ConfiguracionAvanzada/ConfiguracionAvanzada';
 import './App.css';
 
 function App() {
@@ -26,6 +27,10 @@ function App() {
           <Route 
             path="/dashboard" 
             element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} 
+          />
+          <Route 
+            path="/configuracion" 
+            element={isLoggedIn ? <ConfiguracionAvanzada /> : <Navigate to="/login" />} 
           />
         </Routes>
       </div>
