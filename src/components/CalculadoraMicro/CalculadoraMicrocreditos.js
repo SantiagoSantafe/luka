@@ -1,8 +1,31 @@
-import React, { useState } from 'react';
-import { Calculator, Users, Wallet, CreditCard, RefreshCw, ChevronRight, BarChart, TrendingUp, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Calculator, 
+  Users, 
+  Wallet, 
+  CreditCard, 
+  RefreshCw, 
+  ChevronRight, 
+  BarChart, 
+  TrendingUp, 
+  AlertCircle,
+  Home,
+  User,
+  DollarSign,
+  Award,
+  BarChart2,
+  PieChart,
+  HelpCircle,
+  Share2
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+import './CalculadoraMicrocreditos.css';
 
 const CalculadoraMicrocreditos = () => {
   const [activeTab, setActiveTab] = useState('inversionista');
+  const [loading, setLoading] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
   
   // Estados para el modo inversionista
   const [montoInversion, setMontoInversion] = useState(1000000);
@@ -18,89 +41,164 @@ const CalculadoraMicrocreditos = () => {
   const rentabilidadBruta = 0.14; // 14%
   const rentabilidadNeta = 0.115; // 11.5%
   const numeroCreditosSimulados = Math.ceil(montoInversion / 250000);
+  const numeroBeneficiarios = Math.ceil(montoInversion / 300000);
   const riesgoPromedio = 100 - scoreMinimo;
+
+  // Distribución sectorial simulada
+  const [sectorDistribution, setSectorDistribution] = useState([
+    { sector: 'Comercio', porcentaje: 40 },
+    { sector: 'Servicios', porcentaje: 30 },
+    { sector: 'Manufactura', porcentaje: 20 },
+    { sector: 'Agricultura', porcentaje: 10 }
+  ]);
   
   // Cálculos para el modo prestatario
   const tasaEstimada = scoreLuka >= 90 ? 0.14 : scoreLuka >= 80 ? 0.16 : scoreLuka >= 70 ? 0.18 : 0.20;
   const cuotaMensual = Math.round((montoDeseado * (1 + tasaEstimada)) / plazoDeseado);
   const totalPagar = cuotaMensual * plazoDeseado;
   
-  return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      {/* Header */}
-      <header className="flex items-center justify-between p-4 bg-white shadow-sm">
-        <div className="flex items-center">
-          <div className="w-10 h-10 rounded-lg bg-[#004d66] flex items-center justify-center text-white mr-3">
-            <span className="font-bold text-xl">L</span>
-          </div>
-          <h1 className="text-xl font-bold text-[#004d66]">luka</h1>
+  // Probabilidad de aprobación basada en el score
+  const probabilidadAprobacion = scoreLuka >= 90 ? 95 : 
+                                scoreLuka >= 80 ? 80 : 
+                                scoreLuka >= 70 ? 60 : 40;
+  
+  // Monto máximo aprobable (simulación)
+  const montoMaximo = scoreLuka >= 90 ? 3000000 : 
+                     scoreLuka >= 80 ? 2000000 : 
+                     scoreLuka >= 70 ? 1500000 : 1000000;
+
+  // Efecto para simular la carga inicial
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  // Manejo de cambios en los formularios
+  const formatCurrency = (value) => {
+    return `$${value.toLocaleString()}`;
+  };
+
+  const handleSimulate = () => {
+    setLoading(true);
+    // Simulamos un procesamiento
+    setTimeout(() => {
+      // Ajustamos la distribución sectorial aleatoriamente para dar sensación de cálculo
+      const newDistribution = [...sectorDistribution];
+      newDistribution.forEach(item => {
+        item.porcentaje = item.porcentaje + (Math.random() * 6 - 3);
+      });
+      setSectorDistribution(newDistribution);
+      setLoading(false);
+    }, 800);
+  };
+
+  const handleShareResults = () => {
+    setShareModalOpen(true);
+  };
+
+  const handleOpenHelp = () => {
+    setHelpModalOpen(true);
+  };
+
+  // Renderizado de la calculadora
+  if (loading) {
+    return (
+      <div className="calculator-container">
+        <div className="loading-overlay">
+          <div className="loading-spinner"></div>
+          <p>Procesando cálculos...</p>
         </div>
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-gray-200"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="calculator-container">
+      {/* Header */}
+      <header className="calculator-header">
+        <div className="logo-container">
+          <div className="logo">
+            <span>L</span>
+          </div>
+          <h1 className="logo-text">luka</h1>
+        </div>
+        <div className="header-actions">
+          <button className="help-button" onClick={handleOpenHelp}>
+            <HelpCircle size={20} />
+          </button>
+          <div className="user-avatar">
+            <User size={20} />
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto p-4">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">Calculadora de Microcréditos</h1>
-        
-        {/* Tabs */}
-        <div className="bg-white rounded-xl overflow-hidden shadow-sm mb-6">
-          <div className="flex">
-            <button 
-              className={`flex-1 py-3 font-medium text-center ${activeTab === 'inversionista' ? 'bg-[#004d66] text-white' : 'bg-gray-100 text-gray-600'}`}
-              onClick={() => setActiveTab('inversionista')}
-            >
-              <Users className="w-5 h-5 inline-block mr-2" />
-              Modo Inversionista
-            </button>
-            <button 
-              className={`flex-1 py-3 font-medium text-center ${activeTab === 'prestatario' ? 'bg-[#004d66] text-white' : 'bg-gray-100 text-gray-600'}`}
-              onClick={() => setActiveTab('prestatario')}
-            >
-              <CreditCard className="w-5 h-5 inline-block mr-2" />
-              Modo Prestatario
-            </button>
-          </div>
+      <main className="calculator-content">
+        <div className="page-title">
+          <Calculator className="title-icon" />
+          <h1>Calculadora de Microcréditos</h1>
         </div>
         
-        {/* Calculadora Inversionista */}
+        {/* Tabs */}
+        <div className="calculator-tabs">
+          <button 
+            className={`tab-button ${activeTab === 'inversionista' ? 'active' : ''}`}
+            onClick={() => setActiveTab('inversionista')}
+          >
+            <Users size={20} />
+            <span>Modo Inversionista</span>
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'prestatario' ? 'active' : ''}`}
+            onClick={() => setActiveTab('prestatario')}
+          >
+            <CreditCard size={20} />
+            <span>Modo Prestatario</span>
+          </button>
+        </div>
+        
+        {/* Modo Inversionista */}
         {activeTab === 'inversionista' && (
-          <div className="bg-white rounded-xl p-4 shadow-sm mb-6">
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Configuración</h2>
+          <div className="calculator-panel">
+            <div className="panel-section">
+              <h2 className="section-title">
+                <Wallet size={18} />
+                <span>Configuración de inversión</span>
+              </h2>
               
               {/* Monto a invertir */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Monto a invertir (COP)
-                </label>
-                <input 
-                  type="range" 
-                  min="100000" 
-                  max="10000000" 
-                  step="100000" 
-                  value={montoInversion}
-                  onChange={(e) => setMontoInversion(Number(e.target.value))}
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                />
-                <div className="flex justify-between mt-1">
-                  <span className="text-xs text-gray-500">$100,000</span>
-                  <span className="text-sm font-semibold text-[#004d66]">${montoInversion.toLocaleString()}</span>
-                  <span className="text-xs text-gray-500">$10,000,000</span>
+              <div className="form-group">
+                <div className="form-group-header">
+                  <label>Monto a invertir (COP)</label>
+                  <span className="value-display">{formatCurrency(montoInversion)}</span>
+                </div>
+                <div className="slider-container">
+                  <input 
+                    type="range" 
+                    min="100000" 
+                    max="10000000" 
+                    step="100000" 
+                    value={montoInversion}
+                    onChange={(e) => setMontoInversion(Number(e.target.value))}
+                    className="slider"
+                  />
+                  <div className="slider-labels">
+                    <span>$100,000</span>
+                    <span>$10,000,000</span>
+                  </div>
                 </div>
               </div>
               
               {/* Plazo preferido */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Plazo preferido (meses)
-                </label>
-                <div className="flex">
+              <div className="form-group">
+                <label>Plazo preferido (meses)</label>
+                <div className="toggle-buttons">
                   {[6, 12, 18, 24].map((plazo) => (
                     <button
                       key={plazo}
-                      className={`flex-1 py-2 text-center text-sm ${plazoPreferido === plazo ? 'bg-[#004d66] text-white' : 'bg-gray-100 text-gray-700'} ${plazo === 6 ? 'rounded-l-lg' : ''} ${plazo === 24 ? 'rounded-r-lg' : ''}`}
+                      className={`toggle-button ${plazoPreferido === plazo ? 'active' : ''}`}
                       onClick={() => setPlazoPreferido(plazo)}
                     >
                       {plazo}
@@ -110,133 +208,161 @@ const CalculadoraMicrocreditos = () => {
               </div>
               
               {/* Nivel de riesgo */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nivel de riesgo aceptado (score mínimo)
-                </label>
-                <input 
-                  type="range" 
-                  min="60" 
-                  max="95" 
-                  step="5" 
-                  value={scoreMinimo}
-                  onChange={(e) => setScoreMinimo(Number(e.target.value))}
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                />
-                <div className="flex justify-between mt-1">
-                  <div className="flex items-center">
-                    <span className="text-xs text-red-500">Mayor riesgo</span>
-                    <span className="text-xs text-gray-500 ml-1">(60)</span>
-                  </div>
-                  <span className="text-sm font-semibold text-[#004d66]">{scoreMinimo}</span>
-                  <div className="flex items-center">
-                    <span className="text-xs text-green-500">Menor riesgo</span>
-                    <span className="text-xs text-gray-500 ml-1">(95)</span>
+              <div className="form-group">
+                <div className="form-group-header">
+                  <label>Score mínimo aceptado</label>
+                  <span className="value-display">{scoreMinimo}</span>
+                </div>
+                <div className="slider-container">
+                  <input 
+                    type="range" 
+                    min="60" 
+                    max="95" 
+                    step="5" 
+                    value={scoreMinimo}
+                    onChange={(e) => setScoreMinimo(Number(e.target.value))}
+                    className="slider risk-slider"
+                  />
+                  <div className="risk-labels">
+                    <span className="high-risk">Mayor riesgo</span>
+                    <span className="low-risk">Menor riesgo</span>
                   </div>
                 </div>
               </div>
+              
+              <button className="simulate-button" onClick={handleSimulate}>
+                <RefreshCw size={18} />
+                <span>Recalcular con estos parámetros</span>
+              </button>
             </div>
             
             {/* Resultados */}
-            <div className="border-t border-gray-200 pt-4">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Resultados de la simulación</h2>
+            <div className="panel-section results-section">
+              <h2 className="section-title">
+                <BarChart size={18} />
+                <span>Resultados de la simulación</span>
+              </h2>
               
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="bg-[#f8f9fa] p-3 rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-gray-500">Rentabilidad bruta</p>
-                    <TrendingUp className="w-4 h-4 text-[#99cc33]" />
+              <div className="results-grid">
+                <div className="result-card highlighted">
+                  <div className="result-header">
+                    <h3>Rentabilidad neta</h3>
+                    <TrendingUp className="result-icon positive" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#99cc33]">{(rentabilidadBruta * 100).toFixed(1)}%</h3>
-                  <p className="text-xs text-gray-500">anual fija</p>
+                  <p className="result-value">{(rentabilidadNeta * 100).toFixed(1)}%</p>
+                  <p className="result-label">anual</p>
                 </div>
                 
-                <div className="bg-[#f8f9fa] p-3 rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-gray-500">Rentabilidad neta</p>
-                    <TrendingUp className="w-4 h-4 text-[#004d66]" />
+                <div className="result-card">
+                  <div className="result-header">
+                    <h3>Rendimiento estimado</h3>
+                    <DollarSign className="result-icon positive" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#004d66]">{(rentabilidadNeta * 100).toFixed(1)}%</h3>
-                  <p className="text-xs text-gray-500">después de comisiones</p>
+                  <p className="result-value">{formatCurrency(Math.round(montoInversion * rentabilidadNeta))}</p>
+                  <p className="result-label">ganancia neta anual</p>
                 </div>
                 
-                <div className="bg-[#f8f9fa] p-3 rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-gray-500">Créditos a financiar</p>
-                    <Users className="w-4 h-4 text-[#004d66]" />
+                <div className="result-card">
+                  <div className="result-header">
+                    <h3>Créditos financiados</h3>
+                    <CreditCard className="result-icon" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">{numeroCreditosSimulados}</h3>
-                  <p className="text-xs text-gray-500">diversificación</p>
+                  <p className="result-value">{numeroCreditosSimulados}</p>
+                  <p className="result-label">microcréditos totales</p>
                 </div>
                 
-                <div className="bg-[#f8f9fa] p-3 rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-gray-500">Riesgo promedio</p>
-                    <AlertCircle className="w-4 h-4 text-orange-500" />
+                <div className="result-card">
+                  <div className="result-header">
+                    <h3>Beneficiarios</h3>
+                    <Users className="result-icon" />
                   </div>
-                  <h3 className="text-xl font-bold text-orange-500">{riesgoPromedio}%</h3>
-                  <p className="text-xs text-gray-500">basado en score mínimo</p>
+                  <p className="result-value">{numeroBeneficiarios}</p>
+                  <p className="result-label">emprendedores apoyados</p>
                 </div>
               </div>
               
-              <div className="bg-blue-50 border border-blue-100 rounded-lg p-3">
-                <div className="flex">
-                  <div className="flex-shrink-0 mr-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                      <Calculator className="w-5 h-5 text-blue-600" />
+              {/* Sección de impacto */}
+              <div className="impact-section">
+                <h3 className="subsection-title">Distribución sectorial de inversión</h3>
+                <div className="sector-distribution">
+                  {sectorDistribution.map((item, index) => (
+                    <div className="sector-item" key={index}>
+                      <div className="sector-info">
+                        <span className="sector-name">{item.sector}</span>
+                        <span className="sector-percentage">{Math.round(item.porcentaje)}%</span>
+                      </div>
+                      <div className="progress-bar">
+                        <div 
+                          className="progress-fill"
+                          style={{width: `${item.porcentaje}%`, backgroundColor: getColorForSector(item.sector)}}
+                        ></div>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-blue-800 mb-1">Inversión estimada</h3>
-                    <p className="text-sm text-blue-600">Con una inversión de ${montoInversion.toLocaleString()} COP, podrías obtener aproximadamente ${Math.round(montoInversion * rentabilidadNeta).toLocaleString()} COP de ganancia neta al término del periodo.</p>
-                  </div>
+                  ))}
                 </div>
               </div>
               
-              <button className="w-full bg-[#004d66] hover:bg-[#003b50] text-white py-3 rounded-lg font-medium mt-4">
-                Invertir con estos parámetros
-              </button>
+              <div className="impact-note">
+                <Award className="note-icon" />
+                <div>
+                  <h3>Impacto social de tu inversión</h3>
+                  <p>Con una inversión de {formatCurrency(montoInversion)} podrías ayudar a financiar aproximadamente {numeroBeneficiarios} emprendedores y sus familias, contribuyendo directamente a la inclusión financiera.</p>
+                </div>
+              </div>
+              
+              <div className="action-buttons">
+                <button className="primary-button">
+                  Invertir con estos parámetros
+                </button>
+                <button className="secondary-button" onClick={handleShareResults}>
+                  <Share2 size={16} />
+                  <span>Compartir simulación</span>
+                </button>
+              </div>
             </div>
           </div>
         )}
         
-        {/* Calculadora Prestatario */}
+        {/* Modo Prestatario */}
         {activeTab === 'prestatario' && (
-          <div className="bg-white rounded-xl p-4 shadow-sm mb-6">
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Configuración</h2>
+          <div className="calculator-panel">
+            <div className="panel-section">
+              <h2 className="section-title">
+                <CreditCard size={18} />
+                <span>Configuración de crédito</span>
+              </h2>
               
               {/* Monto deseado */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Monto deseado (COP)
-                </label>
-                <input 
-                  type="range" 
-                  min="200000" 
-                  max="3000000" 
-                  step="100000" 
-                  value={montoDeseado}
-                  onChange={(e) => setMontoDeseado(Number(e.target.value))}
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                />
-                <div className="flex justify-between mt-1">
-                  <span className="text-xs text-gray-500">$200,000</span>
-                  <span className="text-sm font-semibold text-[#004d66]">${montoDeseado.toLocaleString()}</span>
-                  <span className="text-xs text-gray-500">$3,000,000</span>
+              <div className="form-group">
+                <div className="form-group-header">
+                  <label>Monto deseado (COP)</label>
+                  <span className="value-display">{formatCurrency(montoDeseado)}</span>
+                </div>
+                <div className="slider-container">
+                  <input 
+                    type="range" 
+                    min="200000" 
+                    max="3000000" 
+                    step="100000" 
+                    value={montoDeseado}
+                    onChange={(e) => setMontoDeseado(Number(e.target.value))}
+                    className="slider"
+                  />
+                  <div className="slider-labels">
+                    <span>$200,000</span>
+                    <span>$3,000,000</span>
+                  </div>
                 </div>
               </div>
               
               {/* Plazo deseado */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Plazo deseado (meses)
-                </label>
-                <div className="flex">
+              <div className="form-group">
+                <label>Plazo deseado (meses)</label>
+                <div className="toggle-buttons">
                   {[3, 6, 12, 18, 24].map((plazo) => (
                     <button
                       key={plazo}
-                      className={`flex-1 py-2 text-center text-sm ${plazoDeseado === plazo ? 'bg-[#004d66] text-white' : 'bg-gray-100 text-gray-700'} ${plazo === 3 ? 'rounded-l-lg' : ''} ${plazo === 24 ? 'rounded-r-lg' : ''}`}
+                      className={`toggle-button ${plazoDeseado === plazo ? 'active' : ''}`}
                       onClick={() => setPlazoDeseado(plazo)}
                     >
                       {plazo}
@@ -246,128 +372,265 @@ const CalculadoraMicrocreditos = () => {
               </div>
               
               {/* Score Luka */}
-              <div>
-                <div className="flex justify-between mb-1">
-                  <label className="text-sm font-medium text-gray-700">
-                    Score Luka actual
-                  </label>
-                  <span className="text-sm text-blue-600">{scoreLuka}/100</span>
+              <div className="form-group">
+                <div className="form-group-header">
+                  <label>Tu Score Luka actual</label>
+                  <span className="value-display">{scoreLuka}/100</span>
                 </div>
-                <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden mb-1">
-                  <div 
-                    className={`h-full ${
-                      scoreLuka >= 90 ? 'bg-green-500' : 
-                      scoreLuka >= 80 ? 'bg-green-400' : 
-                      scoreLuka >= 70 ? 'bg-yellow-500' : 
-                      'bg-red-500'
-                    }`}
-                    style={{width: `${scoreLuka}%`}}
-                  ></div>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-xs text-red-500">Bajo</span>
-                  <span className="text-xs text-yellow-500">Medio</span>
-                  <span className="text-xs text-green-500">Alto</span>
-                  <span className="text-xs text-green-600">Excelente</span>
+                <div className="score-container">
+                  <div className="score-bar">
+                    <div 
+                      className={`score-fill ${
+                        scoreLuka >= 90 ? 'excellent' : 
+                        scoreLuka >= 80 ? 'good' : 
+                        scoreLuka >= 70 ? 'medium' : 'low'
+                      }`}
+                      style={{width: `${scoreLuka}%`}}
+                    ></div>
+                  </div>
+                  <div className="score-labels">
+                    <span className="score-label low">Bajo</span>
+                    <span className="score-label medium">Medio</span>
+                    <span className="score-label good">Alto</span>
+                    <span className="score-label excellent">Excelente</span>
+                  </div>
                 </div>
               </div>
+              
+              <button className="simulate-button" onClick={handleSimulate}>
+                <RefreshCw size={18} />
+                <span>Calcular mi préstamo</span>
+              </button>
             </div>
             
             {/* Resultados */}
-            <div className="border-t border-gray-200 pt-4">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Resultados de la simulación</h2>
+            <div className="panel-section results-section">
+              <h2 className="section-title">
+                <BarChart size={18} />
+                <span>Detalles de tu préstamo</span>
+              </h2>
               
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="bg-[#f8f9fa] p-3 rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-gray-500">Tasa estimada</p>
-                    <TrendingUp className="w-4 h-4 text-[#004d66]" />
+              <div className="results-grid">
+                <div className="result-card highlighted">
+                  <div className="result-header">
+                    <h3>Cuota mensual</h3>
+                    <Calculator className="result-icon" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#004d66]">{(tasaEstimada * 100).toFixed(1)}%</h3>
-                  <p className="text-xs text-gray-500">anual fijo</p>
+                  <p className="result-value">{formatCurrency(cuotaMensual)}</p>
+                  <p className="result-label">{plazoDeseado} cuotas</p>
                 </div>
                 
-                <div className="bg-[#f8f9fa] p-3 rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-gray-500">Cuota mensual</p>
-                    <Calculator className="w-4 h-4 text-[#004d66]" />
+                <div className="result-card">
+                  <div className="result-header">
+                    <h3>Tasa de interés</h3>
+                    <TrendingUp className="result-icon" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">${cuotaMensual.toLocaleString()}</h3>
-                  <p className="text-xs text-gray-500">{plazoDeseado} pagos</p>
+                  <p className="result-value">{(tasaEstimada * 100).toFixed(1)}%</p>
+                  <p className="result-label">anual</p>
                 </div>
                 
-                <div className="bg-[#f8f9fa] p-3 rounded-lg col-span-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-gray-500">Total a pagar</p>
-                    <Wallet className="w-4 h-4 text-[#004d66]" />
+                <div className="result-card">
+                  <div className="result-header">
+                    <h3>Total a pagar</h3>
+                    <Wallet className="result-icon" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">${totalPagar.toLocaleString()}</h3>
-                  <div className="flex justify-between items-center mt-1">
-                    <p className="text-xs text-gray-500">Capital: ${montoDeseado.toLocaleString()}</p>
-                    <p className="text-xs text-gray-500">Intereses: ${(totalPagar - montoDeseado).toLocaleString()}</p>
+                  <p className="result-value">{formatCurrency(totalPagar)}</p>
+                  <p className="result-label">capital + intereses</p>
+                </div>
+                
+                <div className="result-card">
+                  <div className="result-header">
+                    <h3>Probabilidad de aprobación</h3>
+                    <Award className="result-icon" />
                   </div>
+                  <p className="result-value">{probabilidadAprobacion}%</p>
+                  <p className="result-label">con tu score actual</p>
                 </div>
               </div>
               
-              <div className="bg-green-50 border border-green-100 rounded-lg p-3 mb-4">
-                <div className="flex">
-                  <div className="flex-shrink-0 mr-3">
-                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                      <TrendingUp className="w-5 h-5 text-green-600" />
+              {/* Gráfico de distribución */}
+              <div className="payment-breakdown">
+                <h3 className="subsection-title">Desglose de pagos</h3>
+                <div className="payment-chart">
+                  <div className="chart-bar">
+                    <div 
+                      className="bar-segment capital"
+                      style={{width: `${(montoDeseado / totalPagar) * 100}%`}}
+                    ></div>
+                    <div 
+                      className="bar-segment interest"
+                      style={{width: `${((totalPagar - montoDeseado) / totalPagar) * 100}%`}}
+                    ></div>
+                  </div>
+                  <div className="chart-legend">
+                    <div className="legend-item">
+                      <span className="legend-color capital"></span>
+                      <span>Capital: {formatCurrency(montoDeseado)}</span>
+                    </div>
+                    <div className="legend-item">
+                      <span className="legend-color interest"></span>
+                      <span>Intereses: {formatCurrency(totalPagar - montoDeseado)}</span>
                     </div>
                   </div>
-                  <div>
-                    <h3 className="font-medium text-green-800 mb-1">Recomendaciones para mejorar</h3>
-                    <p className="text-sm text-green-600 mb-2">Si aumentas tu score a 90+ podrías reducir tu tasa al 14%, ahorrando hasta ${(totalPagar - (montoDeseado * (1 + 0.14))).toLocaleString()} COP en intereses.</p>
-                    <ul className="text-xs text-green-600 list-disc list-inside">
-                      <li>Paga tus créditos actuales a tiempo</li>
-                      <li>Mantén bajos saldos en tarjetas de crédito</li>
-                      <li>Evita solicitar múltiples créditos en corto tiempo</li>
-                    </ul>
-                  </div>
                 </div>
               </div>
               
-              <button className="w-full bg-[#004d66] hover:bg-[#003b50] text-white py-3 rounded-lg font-medium">
-                Solicitar este crédito
-              </button>
+              <div className="improvement-tips">
+                <div className="tip-header">
+                  <TrendingUp className="tip-icon" />
+                  <h3>Cómo mejorar tu crédito</h3>
+                </div>
+                <p className="tip-description">Si mejoras tu score a 90+ podrías:</p>
+                <div className="tip-benefits">
+                  <div className="benefit-item">
+                    <span className="benefit-value">14%</span>
+                    <span className="benefit-label">Tasa de interés</span>
+                  </div>
+                  <div className="benefit-item">
+                    <span className="benefit-value">+{formatCurrency(montoMaximo - montoDeseado)}</span>
+                    <span className="benefit-label">Monto máximo</span>
+                  </div>
+                  <div className="benefit-item">
+                    <span className="benefit-value">95%</span>
+                    <span className="benefit-label">Prob. aprobación</span>
+                  </div>
+                </div>
+                <ul className="improvement-list">
+                  <li>Paga tus créditos actuales a tiempo</li>
+                  <li>Mantén bajos saldos en tarjetas de crédito</li>
+                  <li>Evita solicitar múltiples créditos en corto tiempo</li>
+                </ul>
+              </div>
+              
+              <div className="action-buttons">
+                <button className="primary-button">
+                  Solicitar este préstamo
+                </button>
+                <button className="secondary-button" onClick={handleShareResults}>
+                  <Share2 size={16} />
+                  <span>Compartir simulación</span>
+                </button>
+              </div>
             </div>
           </div>
         )}
       </main>
 
       {/* Navigation Bar */}
-      <nav className="grid grid-cols-4 bg-white border-t border-gray-200 py-3">
-        <button className="flex flex-col items-center text-gray-400">
-          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          <span className="text-xs mt-1">Inicio</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-400">
-          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
-            <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
-            <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
-            <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2"/>
-          </svg>
-          <span className="text-xs mt-1">Dashboard</span>
-        </button>
-        <button className="flex flex-col items-center text-[#004d66]">
-          <Calculator className="w-6 h-6" />
-          <span className="text-xs mt-1">Calculadora</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-400">
-          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2"/>
-            <path d="M5 19C5 16.2386 7.23858 14 10 14H14C16.7614 14 19 16.2386 19 19V21H5V19Z" stroke="currentColor" strokeWidth="2"/>
-          </svg>
-          <span className="text-xs mt-1">Perfil</span>
-        </button>
+      <nav className="bottom-nav">
+        <Link to="/home" className="nav-item">
+          <Home size={20} />
+          <span>Inicio</span>
+        </Link>
+        <Link to="/dashboard" className="nav-item">
+          <BarChart2 size={20} />
+          <span>Dashboard</span>
+        </Link>
+        <Link to="/calculadora" className="nav-item active">
+          <Calculator size={20} />
+          <span>Calculadora</span>
+        </Link>
+        <Link to="/perfil" className="nav-item">
+          <User size={20} />
+          <span>Perfil</span>
+        </Link>
       </nav>
+      
+      {/* Modales */}
+      {shareModalOpen && (
+        <div className="modal-overlay" onClick={() => setShareModalOpen(false)}>
+          <div className="modal-container" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Compartir simulación</h3>
+              <button className="close-button" onClick={() => setShareModalOpen(false)}>×</button>
+            </div>
+            <div className="modal-content">
+              <p>Comparte los resultados de tu simulación:</p>
+              <div className="share-options">
+                <button className="share-option">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#25D366">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                  <span>WhatsApp</span>
+                </button>
+                <button className="share-option">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#3b5998">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  <span>Facebook</span>
+                </button>
+                <button className="share-option">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#1DA1F2">
+                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 9.99 9.99 0 01-3.127 1.195c-.899-.96-2.18-1.56-3.591-1.56-2.724 0-4.917 2.210-4.917 4.93 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 14-7.503 14-14v-.617a9.99 9.99 0 002.46-2.548l-.047-.02z"/>
+                  </svg>
+                  <span>Twitter</span>
+                </button>
+              </div>
+              <div className="share-link">
+                <label>Enlace para compartir:</label>
+                <div className="link-container">
+                  <input 
+                    type="text" 
+                    readOnly 
+                    value={`https://luka.co/calculadora/?mode=${activeTab}&amount=${activeTab === 'inversionista' ? montoInversion : montoDeseado}&term=${activeTab === 'inversionista' ? plazoPreferido : plazoDeseado}`} 
+                    className="link-input"
+                  />
+                  <button className="copy-button">Copiar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {helpModalOpen && (
+        <div className="modal-overlay" onClick={() => setHelpModalOpen(false)}>
+          <div className="modal-container help-modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Ayuda de la Calculadora</h3>
+              <button className="close-button" onClick={() => setHelpModalOpen(false)}>×</button>
+            </div>
+            <div className="modal-content">
+              <div className="help-section">
+                <h4>Modo Inversionista</h4>
+                <p>Esta calculadora te permite simular el rendimiento de tu inversión en microcréditos:</p>
+                <ul>
+                  <li><strong>Monto a invertir:</strong> Cantidad que deseas destinar a microcréditos.</li>
+                  <li><strong>Plazo preferido:</strong> Duración promedio de tus inversiones.</li>
+                  <li><strong>Score mínimo:</strong> Calidad crediticia mínima que aceptas para tus prestatarios.</li>
+                </ul>
+                <p>Los resultados muestran la rentabilidad esperada y el impacto social de tu inversión.</p>
+              </div>
+              <div className="help-section">
+                <h4>Modo Prestatario</h4>
+                <p>Te permite calcular las condiciones de un posible préstamo:</p>
+                <ul>
+                  <li><strong>Monto deseado:</strong> Cantidad de dinero que necesitas.</li>
+                  <li><strong>Plazo deseado:</strong> Tiempo en el que planeas devolverlo.</li>
+                  <li><strong>Score Luka:</strong> Tu calificación crediticia actual en nuestra plataforma.</li>
+                </ul>
+                <p>Los resultados muestran la cuota mensual, tasa de interés y probabilidad de aprobación.</p>
+              </div>
+              <div className="disclaimer">
+                <strong>Nota:</strong> Esta calculadora proporciona estimaciones basadas en datos históricos y condiciones actuales. Los resultados reales pueden variar.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
+};
+
+// Función auxiliar para obtener colores según el sector
+const getColorForSector = (sector) => {
+  switch(sector) {
+    case 'Comercio': return '#3498db';
+    case 'Servicios': return '#2ecc71';
+    case 'Manufactura': return '#e74c3c';
+    case 'Agricultura': return '#f39c12';
+    default: return '#95a5a6';
+  }
 };
 
 export default CalculadoraMicrocreditos;

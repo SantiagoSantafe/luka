@@ -266,9 +266,15 @@ const Login = () => {
       setRememberMe(true);
     }
     
-    // No verificamos sesión activa al cargar el componente
-    // para permitir que se muestre siempre la pantalla de login
-  }, []);
+    // Comprobar si hay una sesión activa
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const savedUserType = localStorage.getItem('userType');
+    
+    if (isLoggedIn && savedUserType) {
+      // Redirigir al dashboard correspondiente
+      navigate(`/dashboard/${savedUserType}`);
+    }
+  }, [navigate]);
 
   const validateForm = () => {
     const formErrors = {};
@@ -307,13 +313,16 @@ const Login = () => {
     setTimeout(() => {
       // Si ya tiene un tipo de usuario guardado, lo redirigimos directamente
       if (savedUserType) {
-        if (savedUserType === 'inversionista') {
-          localStorage.setItem('isLoggedIn', 'true');
-          navigate('/dashboard/inversionista');
-        } else if (savedUserType === 'prestatario') {
-          localStorage.setItem('isLoggedIn', 'true');
-          navigate('/dashboard/prestatario');
+        // Guardar el estado de autenticación
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        // Guardar el email si "recordar" está activado
+        if (rememberMe) {
+          localStorage.setItem('rememberUser', email);
         }
+        
+        // Redirigir al dashboard correspondiente
+        navigate(`/dashboard/${savedUserType}`);
       } else {
         // Si no tiene un tipo guardado, mostrar el selector
         setShowUserTypeSelector(true);
@@ -353,11 +362,7 @@ const Login = () => {
     
     // Redirigir según el tipo de usuario
     setTimeout(() => {
-      if (userType === 'inversionista') {
-        navigate('/dashboard/inversionista');
-      } else if (userType === 'prestatario') {
-        navigate('/dashboard/prestatario');
-      }
+      navigate(`/dashboard/${userType}`);
       setLoading(false);
     }, 1000);
   };

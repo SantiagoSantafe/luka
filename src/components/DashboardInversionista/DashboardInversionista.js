@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './DashboardInversionista.css';
+import { TrendingUp, Users, Clock, BarChart2, Download, DollarSign, PieChart, CreditCard, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 
 const DashboardInversionista = () => {
   const [userData, setUserData] = useState({
@@ -8,10 +9,17 @@ const DashboardInversionista = () => {
     saldoDisponible: 2500000,
     rentabilidadTotal: 12.5,
     inversionesActivas: 3,
-    inversionesCompletadas: 2
+    inversionesCompletadas: 2,
+    totalMicrocreditosApoyados: 100, // Nuevo dato para mostrar el impacto
+    rendimientoMensual: 25000, // Rendimiento mensual estimado
+    rendimientoAnual: 312500, // Rendimiento anual proyectado
   });
 
   const [loading, setLoading] = useState(true);
+  const [showMoveMoneyModal, setShowMoveMoneyModal] = useState(false);
+  const [moveType, setMoveType] = useState('');
+  const [moveAmount, setMoveAmount] = useState('');
+  
   const [investments, setInvestments] = useState([
     {
       id: 1,
@@ -42,6 +50,14 @@ const DashboardInversionista = () => {
     }
   ]);
 
+  // Datos para la visualización del impacto social
+  const [impactStats, setImpactStats] = useState({
+    emprendedores: 65,
+    mujeres: 48,
+    rurales: 37,
+    primeroCredito: 42
+  });
+
   useEffect(() => {
     // Simular carga de datos del usuario
     const timer = setTimeout(() => {
@@ -58,18 +74,47 @@ const DashboardInversionista = () => {
   };
 
   const handleDeposit = () => {
-    console.log('Abrir formulario de depósito');
-    // Aquí podríamos abrir un modal para depositar
+    setMoveType('deposit');
+    setShowMoveMoneyModal(true);
   };
 
   const handleWithdraw = () => {
-    console.log('Abrir formulario de retiro');
-    // Aquí podríamos abrir un modal para retirar fondos
+    setMoveType('withdraw');
+    setShowMoveMoneyModal(true);
   };
 
   const handleInvestMore = () => {
     console.log('Buscar nuevas oportunidades de inversión');
     // Aquí podríamos navegar a una página de oportunidades
+  };
+  
+  const handleMoveMoneySubmit = () => {
+    const amount = parseFloat(moveAmount);
+    
+    if (isNaN(amount) || amount <= 0) {
+      alert('Por favor ingresa una cantidad válida');
+      return;
+    }
+    
+    if (moveType === 'withdraw' && amount > userData.saldoDisponible) {
+      alert('No tienes suficiente saldo disponible');
+      return;
+    }
+    
+    // Aquí en una app real, enviaríamos la solicitud al backend
+    // Por ahora, solo actualizamos el estado local para simular
+    
+    setUserData(prevData => ({
+      ...prevData,
+      saldoDisponible: moveType === 'deposit' 
+        ? prevData.saldoDisponible + amount
+        : prevData.saldoDisponible - amount
+    }));
+    
+    setShowMoveMoneyModal(false);
+    setMoveAmount('');
+    
+    alert(`Has ${moveType === 'deposit' ? 'depositado' : 'retirado'} $${amount.toLocaleString()} exitosamente`);
   };
 
   if (loading) {
@@ -114,30 +159,121 @@ const DashboardInversionista = () => {
           <h2 className="welcome-message">¡Buenos días, {userData.nombre}!</h2>
         </div>
         
+        {/* Sección de impacto social - NUEVA */}
+        <div className="impact-section">
+          <div className="impact-card">
+            <div className="impact-header">
+              <h3>
+                <Users className="icon" />
+                Impacto de tu inversión
+              </h3>
+              <span className="impact-badge">Impacto Social</span>
+            </div>
+            <div className="impact-numbers">
+              <h2 className="impact-total">{userData.totalMicrocreditosApoyados}</h2>
+              <p className="impact-label">microcréditos apoyados</p>
+            </div>
+            <div className="impact-stats">
+              <div className="impact-stat">
+                <span className="stat-number">{impactStats.emprendedores}</span>
+                <span className="stat-label">Emprendedores</span>
+              </div>
+              <div className="impact-stat">
+                <span className="stat-number">{impactStats.mujeres}</span>
+                <span className="stat-label">Mujeres</span>
+              </div>
+              <div className="impact-stat">
+                <span className="stat-number">{impactStats.rurales}</span>
+                <span className="stat-label">Rurales</span>
+              </div>
+              <div className="impact-stat">
+                <span className="stat-number">{impactStats.primeroCredito}</span>
+                <span className="stat-label">1er Crédito</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div className="dashboard-summary">
           <div className="summary-card balance">
             <h3 className="card-title">Saldo disponible</h3>
             <p className="card-value">${userData.saldoDisponible.toLocaleString()}</p>
             <div className="card-actions">
-              <button className="action-btn deposit" onClick={handleDeposit}>Depositar</button>
-              <button className="action-btn withdraw" onClick={handleWithdraw}>Retirar</button>
+              <button className="action-btn deposit" onClick={handleDeposit}>
+                <ArrowDownCircle className="btn-icon" />
+                Depositar
+              </button>
+              <button className="action-btn withdraw" onClick={handleWithdraw}>
+                <ArrowUpCircle className="btn-icon" />
+                Retirar
+              </button>
             </div>
           </div>
           
-          <div className="summary-card stats">
-            <div className="stat-item">
-              <h4 className="stat-label">Rentabilidad total</h4>
-              <p className="stat-value">{userData.rentabilidadTotal}%</p>
+          {/* Card de Rentabilidad mejorada - NUEVA */}
+          <div className="summary-card earnings">
+            <h3 className="card-title">Rentabilidad de tus inversiones</h3>
+            <div className="earnings-details">
+              <div className="earnings-primary">
+                <TrendingUp className="earnings-icon" />
+                <div>
+                  <p className="earnings-rate">{userData.rentabilidadTotal}%</p>
+                  <span className="earnings-label">Anual</span>
+                </div>
+              </div>
+              <div className="earnings-projections">
+                <div className="earning-projection">
+                  <span className="projection-value">${userData.rendimientoMensual.toLocaleString()}</span>
+                  <span className="projection-label">Por mes</span>
+                </div>
+                <div className="earning-projection">
+                  <span className="projection-value">${userData.rendimientoAnual.toLocaleString()}</span>
+                  <span className="projection-label">Proyección anual</span>
+                </div>
+              </div>
             </div>
-            <div className="stat-divider"></div>
-            <div className="stat-item">
+          </div>
+        </div>
+        
+        {/* Stats de inversión - Mejores visuales */}
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-icon">
+              <PieChart />
+            </div>
+            <div className="stat-content">
               <h4 className="stat-label">Inversiones activas</h4>
               <p className="stat-value">{userData.inversionesActivas}</p>
             </div>
-            <div className="stat-divider"></div>
-            <div className="stat-item">
+          </div>
+          
+          <div className="stat-card">
+            <div className="stat-icon">
+              <CreditCard />
+            </div>
+            <div className="stat-content">
               <h4 className="stat-label">Inversiones completadas</h4>
               <p className="stat-value">{userData.inversionesCompletadas}</p>
+            </div>
+          </div>
+          
+          <div className="stat-card">
+            <div className="stat-icon">
+              <BarChart2 />
+            </div>
+            <div className="stat-content">
+              <h4 className="stat-label">Total inversiones</h4>
+              <p className="stat-value">${(investments.reduce((total, inv) => total + inv.montoInvertido, 0)).toLocaleString()}</p>
+            </div>
+          </div>
+          
+          <div className="stat-card">
+            <div className="stat-icon">
+              <Clock />
+            </div>
+            <div className="stat-content">
+              <h4 className="stat-label">Promedio plazo</h4>
+              <p className="stat-value">90 días</p>
             </div>
           </div>
         </div>
@@ -186,12 +322,18 @@ const DashboardInversionista = () => {
                   </div>
                 </div>
                 
-                <button className="view-details-btn">
-                  Ver detalles
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </button>
+                <div className="investment-actions">
+                  <button className="view-details-btn">
+                    Ver detalles
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </button>
+                  <button className="withdraw-investment-btn">
+                    Retirar inversión
+                    <ArrowUpCircle size={16} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -205,7 +347,89 @@ const DashboardInversionista = () => {
             </button>
           </div>
         </section>
+        
+        {/* Sección de reportes descargables - NUEVA */}
+        <section className="reports-section">
+          <h3 className="section-title">Reportes y certificados</h3>
+          <div className="reports-grid">
+            <div className="report-card">
+              <div className="report-icon">
+                <Download />
+              </div>
+              <div className="report-content">
+                <h4>Reporte de inversiones</h4>
+                <p>Resumen detallado de tus inversiones activas</p>
+                <button className="download-btn">Descargar PDF</button>
+              </div>
+            </div>
+            <div className="report-card">
+              <div className="report-icon">
+                <DollarSign />
+              </div>
+              <div className="report-content">
+                <h4>Certificado tributario</h4>
+                <p>Para declaración de renta (DIAN)</p>
+                <button className="download-btn">Descargar PDF</button>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
+      
+      {/* Modal para depositar o retirar fondos */}
+      {showMoveMoneyModal && (
+        <div className="modal-overlay">
+          <div className="money-modal">
+            <h3 className="modal-title">
+              {moveType === 'deposit' ? 'Depositar fondos' : 'Retirar fondos'}
+            </h3>
+            <div className="modal-content">
+              <div className="form-group">
+                <label htmlFor="amount">Cantidad (COP)</label>
+                <input
+                  type="number"
+                  id="amount"
+                  placeholder="Ingresa el monto"
+                  value={moveAmount}
+                  onChange={(e) => setMoveAmount(e.target.value)}
+                  className="amount-input"
+                  min="10000"
+                  max={moveType === 'withdraw' ? userData.saldoDisponible : "100000000"}
+                />
+              </div>
+              {moveType === 'withdraw' && (
+                <div className="available-balance">
+                  <p>Saldo disponible: <strong>${userData.saldoDisponible.toLocaleString()}</strong></p>
+                </div>
+              )}
+              {moveType === 'deposit' && (
+                <div className="payment-methods">
+                  <p className="methods-title">Métodos de pago:</p>
+                  <div className="methods-options">
+                    <button className="method-option selected">PSE</button>
+                    <button className="method-option">Transferencia</button>
+                    <button className="method-option">Efectivo</button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="modal-actions">
+              <button 
+                className="cancel-btn" 
+                onClick={() => setShowMoveMoneyModal(false)}
+              >
+                Cancelar
+              </button>
+              <button 
+                className="confirm-btn"
+                onClick={handleMoveMoneySubmit}
+              >
+                {moveType === 'deposit' ? 'Depositar' : 'Retirar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
