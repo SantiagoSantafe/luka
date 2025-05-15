@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
-import { useAuth } from '../../App'; // Importamos el hook useAuth para acceder al contexto
+
 
 // Estilos en línea como fallback si el CSS no carga correctamente
 const styles = {
@@ -189,7 +189,6 @@ const styles = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Usamos el hook useAuth
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -253,21 +252,22 @@ const Login = () => {
     // Simulación de autenticación exitosa
     // En una aplicación real, aquí iría la llamada a la API de autenticación
     setTimeout(() => {
-      // Realizar login (solo autenticación, sin establecer tipo de usuario)
-      login();
-      
-      // Guardar el email si "recordar" está activado
-      if (rememberMe) {
-        localStorage.setItem('rememberUser', email);
-      } else {
-        localStorage.removeItem('rememberUser');
-      }
-      
-      // Redirigir a la pantalla de selección de tipo de usuario
-      navigate('/select-user-type');
-      
-      setLoading(false);
-    }, 1500);
+    // Guardar sesión en localStorage directamente
+    localStorage.setItem('isLoggedIn', 'true');
+
+    // Guardar el email si "recordar" está activado
+    if (rememberMe) {
+      localStorage.setItem('rememberUser', email);
+    } else {
+      localStorage.removeItem('rememberUser');
+    }
+
+    // Redirigir a la pantalla de selección de tipo de usuario
+    navigate('/select-user-type');
+
+    setLoading(false);
+  }, 1500);
+
   };
 
   // Pantalla de login normal

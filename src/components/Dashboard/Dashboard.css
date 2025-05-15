@@ -1,185 +1,464 @@
 /* Dashboard.css */
 .dashboard-container {
-    max-width: 100%;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    background-color: #f5f5f5;
-    min-height: 100vh;
+  max-width: 100%;
+  padding: 0;
+  font-family: 'Inter', 'Arial', sans-serif;
+  color: #333;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header styles */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #004d66;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+
+.logo span {
+  color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #004d66;
+  margin: 0;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.notification-button {
+  position: relative;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.7rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  cursor: pointer;
+}
+
+/* Profile dropdown */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 280px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.profile-header {
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.profile-info h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+
+.profile-status {
+  font-size: 0.8rem;
+  color: #27ae60;
+  margin: 0;
+}
+
+.profile-menu-items {
+  padding: 0.75rem 0;
+}
+
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.profile-menu-item:hover {
+  background-color: #f8f9fa;
+}
+
+.profile-menu-item svg {
+  margin-right: 0.75rem;
+  color: #666;
+}
+
+.profile-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  color: #e74c3c;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #fee2e2;
+}
+
+/* Content styles */
+.dashboard-content {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Back button */
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #004d66;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: rgba(0, 77, 102, 0.05);
+}
+
+/* Welcome section */
+.welcome-section {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-message {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* Credit score styles */
+.greeting-section {
+  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.credit-score-container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.credit-score-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.credit-score-inner {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #004d66 0%, #0077a2 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.credit-score-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+}
+
+.credit-score-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-decoration: underline;
+}
+
+.credit-score-message {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Credit info section */
+.credit-info-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.credit-info-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: #333;
+  text-align: left;
+}
+
+/* Credit details grid */
+.credit-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.credit-detail-card {
+  border-radius: 8px;
+  padding: 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80px;
+  transition: transform 0.2s;
+}
+
+.credit-detail-card:hover {
+  transform: translateY(-2px);
+}
+
+.credit-detail-card.dark {
+  background-color: #004d66;
+  color: white;
+}
+
+.credit-detail-card.light {
+  background-color: #e8f4ff;
+  color: #004d66;
+}
+
+.detail-label {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.detail-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.action-button {
+  padding: 1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.action-button.primary {
+  background-color: #004d66;
+  color: white;
+}
+
+.action-button.primary:hover {
+  background-color: #003b50;
+}
+
+.action-button.secondary {
+  background-color: #f8f9fa;
+  color: #004d66;
+  border: 1px solid #004d66;
+}
+
+.action-button.secondary:hover {
+  background-color: #e9ecef;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
+  padding: 0.75rem 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #999;
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.nav-item span {
+  margin-top: 0.25rem;
+}
+
+.nav-item.active {
+  color: #004d66;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 77, 102, 0.1);
+  border-radius: 50%;
+  border-top-color: #004d66;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .credit-details-grid {
+    grid-template-columns: 1fr;
   }
   
-  /* Header styles */
-  .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dashboard-header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-    text-align: center;
-    flex-grow: 1;
-  }
-  
-  .back-button, .menu-button {
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 8px;
-  }
-  
-  /* Greeting section */
-  .greeting-section {
-    padding: 20px 16px;
-    text-align: center;
-  }
-  
-  .greeting-section h2 {
-    margin: 0 0 20px 0;
-    font-size: 1.25rem;
-  }
-  
-  /* Credit score circle */
-  .credit-score-container {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0;
+  .dashboard-content {
+    padding: 1rem;
   }
   
   .credit-score-circle {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 180px;
+    height: 180px;
   }
   
   .credit-score-inner {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background-color: #aaa;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    text-align: center;
+    width: 160px;
+    height: 160px;
   }
-  
-  .credit-score-label {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
+}
+
+@media (max-width: 480px) {
+  .profile-dropdown {
+    width: 260px;
   }
-  
-  .credit-score-value {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-decoration: underline;
-  }
-  
-  .credit-score-message {
-    font-size: 0.9rem;
-  }
-  
-  /* Credit info section */
-  .credit-info-section {
-    padding: 20px 16px;
-  }
-  
-  .credit-info-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  /* Credit details grid */
-  .credit-details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .credit-detail-card {
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 80px;
-  }
-  
-  .credit-detail-card.dark {
-    background-color: #333;
-    color: white;
-  }
-  
-  .credit-detail-card.light {
-    background-color: #ccc;
-    color: #333;
-  }
-  
-  .detail-label {
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-  }
-  
-  .detail-value {
-    font-weight: bold;
-    font-size: 1.1rem;
-  }
-  
-  /* Action buttons */
-  .action-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .action-button {
-    padding: 16px;
-    border-radius: 8px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1rem;
-    text-align: center;
-  }
-  
-  .action-button.primary {
-    background-color: #333;
-    color: white;
-  }
-  
-  .action-button.secondary {
-    background-color: #333;
-    color: white;
-    font-size: 0.9rem;
-    padding: 12px;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 480px) {
-    .credit-score-circle {
-      width: 180px;
-      height: 180px;
-    }
-    
-    .credit-score-inner {
-      width: 160px;
-      height: 160px;
-    }
-    
-    .credit-details-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
+}
