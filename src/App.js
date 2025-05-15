@@ -12,7 +12,7 @@ import LukaBilletera from './components/BilleteraDigital/LukaBilletera';
 import CalculadoraMicrocreditos from './components/CalculadoraMicro/CalculadoraMicrocreditos';
 import NotFound from './components/NotFound';
 import UserTypeSelection from './components/Auth/UserTypeSelection'; // Nuevo componente para seleccionar tipo de usuario
-
+import DetalleCreditoPrestatario from './components/pages/DetalleCreditoPrestatario';
 // Determina si estamos en producción (GitHub Pages) o desarrollo
 const isProduction = process.env.NODE_ENV === 'production';
 // Obtén el nombre del repositorio para el basename en producción

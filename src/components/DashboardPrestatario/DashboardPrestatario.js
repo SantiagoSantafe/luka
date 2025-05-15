@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
-  Home, User, Wallet, TrendingUp, Calendar, AlertCircle, FileText
+  Home, User, Wallet, TrendingUp, Calendar, AlertCircle, FileText, ArrowLeft
 } from 'lucide-react';
 import './DashboardPrestatario.css';
 
+
 const DashboardPrestatario = () => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate('/user-type');
+  };
   const [loading, setLoading] = useState(true);
 
   const creditosActivos = [
@@ -76,6 +82,10 @@ const DashboardPrestatario = () => {
       </header>
 
       <main className="dashboard-content">
+        <button className="back-button" onClick={handleBack}>
+          <ArrowLeft size={18} /> Volver
+        </button>
+
         <div className="welcome-section">
           <h2 className="welcome-message">¡Hola, Andrés!</h2>
           <p>Este es el estado actualizado de tus microcréditos.</p>
@@ -134,10 +144,9 @@ const DashboardPrestatario = () => {
                   <p><strong>Plazo:</strong> {c.plazo} meses</p>
                   <p><strong>Cuota mensual:</strong> {formatCurrency(c.cuota)}</p>
                   <p><strong>Vencimiento:</strong> {c.fechaPago}</p>
-                  <p><strong>Score Luka:</strong> {c.score}/100</p>
+                  <p><strong>Score Luka:</strong> 82/100</p>
                 </div>
-                <button className="view-button">Ver más</button>
-              </div>
+                <Link to={`/credito/${c.id}`} className="view-button">Ver más</Link>              </div>
             ))}
           </div>
         </section>

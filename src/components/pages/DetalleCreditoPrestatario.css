@@ -1,0 +1,64 @@
+.detalle-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f5f7fa;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    color: #004d66;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+  
+  .calendario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .cuota-card {
+    border-radius: 8px;
+    padding: 1rem;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .cuota-card.pagado {
+    background-color: #4caf50;
+  }
+  
+  .cuota-card.proximo {
+    background-color: #ffc107;
+  }
+  
+  .cuota-card.pendiente {
+    background-color: #f44336;
+  }
+  
+  .pago-button {
+    margin-top: 1.5rem;
+    background-color: #004d66;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .calculadora-section {
+    margin-top: 2rem;
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
