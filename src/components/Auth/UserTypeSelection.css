@@ -1,0 +1,152 @@
+.user-type-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+    padding: 20px;
+  }
+  
+  .user-type-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .logo {
+    width: 50px;
+    height: 50px;
+    background-color: #004d66;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  
+  .logo span {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .logo-text {
+    color: #004d66;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .selection-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .selection-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .user-type-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  
+  .user-type-option {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #eaeef2;
+    border-radius: 10px;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+  
+  .user-type-option:hover {
+    border-color: #00a651;
+    background-color: rgba(0, 166, 81, 0.05);
+  }
+  
+  .option-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+    color: white;
+  }
+  
+  .investor-icon {
+    background-color: #00a651;
+  }
+  
+  .borrower-icon {
+    background-color: #1565c0;
+  }
+  
+  .option-details {
+    flex: 1;
+  }
+  
+  .option-details h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: #333;
+  }
+  
+  .option-details p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+  
+  .type-selection-footer {
+    font-size: 14px;
+    color: #888;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 576px) {
+    .user-type-card {
+      padding: 30px 20px;
+    }
+    
+    .user-type-option {
+      padding: 15px;
+    }
+    
+    .option-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 15px;
+    }
+    
+    .option-details h3 {
+      font-size: 16px;
+    }
+    
+    .option-details p {
+      font-size: 13px;
+    }
+  }

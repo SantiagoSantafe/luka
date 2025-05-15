@@ -159,7 +159,7 @@ const DashboardInversionista = () => {
           <h2 className="welcome-message">¡Buenos días, {userData.nombre}!</h2>
         </div>
         
-        {/* Sección de impacto social - NUEVA */}
+        {/* Sección de impacto social - ACTUALIZADA CON ESTILOS EN LÍNEA */}
         <div className="impact-section">
           <div className="impact-card">
             <div className="impact-header">
@@ -176,22 +176,24 @@ const DashboardInversionista = () => {
             <div className="impact-stats">
               <div className="impact-stat">
                 <span className="stat-number">{impactStats.emprendedores}</span>
-                <span className="stat-label">Emprendedores</span>
+                <span className="stat-label" style={{ color: "white", fontWeight: 600, opacity: 1 }}>Emprendedores</span>
               </div>
               <div className="impact-stat">
                 <span className="stat-number">{impactStats.mujeres}</span>
-                <span className="stat-label">Mujeres</span>
+                <span className="stat-label" style={{ color: "white", fontWeight: 600, opacity: 1 }}>Mujeres</span>
               </div>
               <div className="impact-stat">
                 <span className="stat-number">{impactStats.rurales}</span>
-                <span className="stat-label">Rurales</span>
+                <span className="stat-label" style={{ color: "white", fontWeight: 600, opacity: 1 }}>Rurales</span>
               </div>
               <div className="impact-stat">
                 <span className="stat-number">{impactStats.primeroCredito}</span>
-                <span className="stat-label">1er Crédito</span>
+                <span className="stat-label" style={{ color: "white", fontWeight: 600, opacity: 1 }}>1er Crédito</span>
               </div>
             </div>
           </div>
+        </div>
+        <div className="text-details">
         </div>
         
         <div className="dashboard-summary">
@@ -206,6 +208,10 @@ const DashboardInversionista = () => {
               <button className="action-btn withdraw" onClick={handleWithdraw}>
                 <ArrowUpCircle className="btn-icon" />
                 Retirar
+              </button>
+              <button className="action-btn withdraw" onClick={handleWithdraw}>
+                <ArrowUpCircle className="btn-icon" />
+                Invertir
               </button>
             </div>
           </div>
@@ -302,23 +308,23 @@ const DashboardInversionista = () => {
                 
                 <div className="investment-details">
                   <div className="investment-detail">
-                    <span className="detail-label">Monto invertido</span>
-                    <span className="detail-value">${investment.montoInvertido.toLocaleString()}</span>
+                    <span className="detail-text">El interés y rentabilidad del microcrédito es de: </span>
+                    <span className="detail-value positive">{investment.rentabilidad}%</span>
                   </div>
                   
                   <div className="investment-detail">
-                    <span className="detail-label">Rentabilidad</span>
-                    <span className="detail-value positive">{investment.rentabilidad}%</span>
+                    <span className="detail-text">Monto invertido es de: </span>
+                    <span className="detail-value positive">{investment.montoInvertido.toLocaleString()}$</span>
+                  </div>
+
+                  <div className="investment-detail">
+                    <span className="detail-text">El score crediticio del prestatario es de: </span>
+                    <span className="detail-value positive">{investment.scorePrestatario}/1000</span>
                   </div>
                   
                   <div className="investment-detail">
                     <span className="detail-label">Vencimiento</span>
                     <span className="detail-value">{investment.fechaVencimiento}</span>
-                  </div>
-                  
-                  <div className="investment-detail">
-                    <span className="detail-label">Score prestatario</span>
-                    <span className="detail-value">{investment.scorePrestatario}/1000</span>
                   </div>
                 </div>
                 

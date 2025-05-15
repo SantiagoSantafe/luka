@@ -2,6 +2,7 @@ import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 
 // Importar componentes principales
+import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import DashboardInversionista from './components/DashboardInversionista/DashboardInversionista';
@@ -10,6 +11,7 @@ import ConfiguracionAvanzada from './components/ConfiguracionAvanzada/Configurac
 import LukaBilletera from './components/BilleteraDigital/LukaBilletera';
 import CalculadoraMicrocreditos from './components/CalculadoraMicro/CalculadoraMicrocreditos';
 import NotFound from './components/NotFound';
+import UserTypeSelection from './components/Auth/UserTypeSelection'; // Nuevo componente para seleccionar tipo de usuario
 
 // Determina si estamos en producción (GitHub Pages) o desarrollo
 const isProduction = process.env.NODE_ENV === 'production';
@@ -22,6 +24,7 @@ export const AuthContext = createContext({
   userType: '',
   login: () => {},
   logout: () => {},
+  setUserType: () => {}, // Nueva función para establecer el tipo de usuario
   isLoading: true
 });
 
@@ -33,6 +36,14 @@ export const useAuth = () => {
 // Componente de protección de rutas
 const ProtectedRoute = ({ allowedType, children }) => {
   const { isLoggedIn, userType, isLoading } = useAuth();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    // Si está autenticado pero no tiene tipo de usuario asignado, redirigir a la selección
+    if (isLoggedIn && !userType && !isLoading) {
+      navigate('/select-user-type');
+    }
+  }, [isLoggedIn, userType, isLoading, navigate]);
   
   if (isLoading) {
     return (
@@ -46,6 +57,11 @@ const ProtectedRoute = ({ allowedType, children }) => {
   if (!isLoggedIn) {
     // Si no está logueado, redirigir al login
     return <Navigate to="/login" replace />;
+  }
+  
+  if (!userType) {
+    // Si está logueado pero no tiene tipo de usuario, redirigir a la selección
+    return <Navigate to="/select-user-type" replace />;
   }
   
   if (allowedType && userType !== allowedType) {
@@ -62,18 +78,22 @@ const AuthProvider = ({ children }) => {
   const [userType, setUserType] = useState(localStorage.getItem('userType') || '');
   const [isLoading, setIsLoading] = useState(true);
   
-  // Función para iniciar sesión
-  const login = (type) => {
+  // Función para iniciar sesión (ahora solo establece isLoggedIn, no el tipo de usuario)
+  const login = () => {
     localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userType', type);
     setIsLoggedIn(true);
+  };
+  
+  // Nueva función separada para establecer el tipo de usuario
+  const updateUserType = (type) => {
+    localStorage.setItem('userType', type);
     setUserType(type);
   };
   
   // Función para cerrar sesión
   const logout = () => {
     localStorage.removeItem('isLoggedIn');
-    // No eliminamos el tipo de usuario para recordarlo en el siguiente inicio de sesión
+    localStorage.removeItem('userType'); // Ahora sí eliminamos el tipo de usuario al cerrar sesión
     setIsLoggedIn(false);
     setUserType('');
   };
@@ -92,7 +112,14 @@ const AuthProvider = ({ children }) => {
   
   // Proporcionar el contexto de autenticación a todos los componentes
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userType, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ 
+      isLoggedIn, 
+      userType, 
+      login, 
+      logout, 
+      setUserType: updateUserType, 
+      isLoading 
+    }}>
       {children}
     </AuthContext.Provider>
   );
@@ -107,16 +134,15 @@ const AppContent = () => {
   useEffect(() => {
     if (isLoading) return;
     
-    const publicRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
-    const isPublicRoute = publicRoutes.some(route => location.pathname.startsWith(route));
+    const publicRoutes = ['/login', '/register', '/forgot-password', '/reset-password', '/'];
+    const isPublicRoute = publicRoutes.some(route => location.pathname.startsWith(route) || location.pathname === route);
     
-    // Si está autenticado y está en una ruta pública, redirigir al dashboard
-    if (isLoggedIn && isPublicRoute) {
+    // Si está autenticado y está en una ruta pública, redirigir al dashboard o a la selección
+    if (isLoggedIn && isPublicRoute && location.pathname !== '/') {
       if (userType) {
         navigate(`/dashboard/${userType}`);
       } else {
-        // Si no tiene tipo de usuario definido, se queda en la página para elegir
-        // Esto permite que el flujo de selección de tipo de usuario funcione
+        navigate('/select-user-type');
       }
     }
     
@@ -138,9 +164,17 @@ const AppContent = () => {
   return (
     <Routes>
       {/* Rutas públicas */}
-      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      
+      {/* Ruta de selección de tipo de usuario (después de login) */}
+      <Route 
+        path="/select-user-type" 
+        element={
+          isLoggedIn ? <UserTypeSelection /> : <Navigate to="/login" />
+        } 
+      />
       
       {/* Rutas protegidas - Dashboard de Inversionista */}
       <Route 
@@ -196,7 +230,11 @@ const AppContent = () => {
       <Route 
         path="/dashboard" 
         element={
-          <Navigate to={`/dashboard/${localStorage.getItem('userType') || 'inversionista'}`} replace />
+          isLoggedIn ? 
+            userType ? 
+              <Navigate to={`/dashboard/${userType}`} replace /> : 
+              <Navigate to="/select-user-type" replace /> :
+            <Navigate to="/login" replace />
         } 
       />
       

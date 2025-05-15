@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
+import { useAuth } from '../../App'; // Importamos el hook useAuth para acceder al contexto
 
 // Estilos en línea como fallback si el CSS no carga correctamente
 const styles = {
@@ -61,61 +62,6 @@ const styles = {
     color: '#666',
     fontSize: '0.95rem'
   },
-  typeSelector: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  optionsContainer: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    marginBottom: '1.5rem'
-  },
-  option: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '1.25rem',
-    backgroundColor: '#ffffff',
-    border: '2px solid #e0e0e0',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease-in-out',
-    textAlign: 'left',
-    width: '100%'
-  },
-  optionSelected: {
-    borderColor: '#004d66',
-    backgroundColor: 'rgba(0, 77, 102, 0.08)'
-  },
-  optionIcon: {
-    width: '56px',
-    height: '56px',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: '1rem',
-    flexShrink: 0,
-    backgroundColor: 'rgba(0, 77, 102, 0.1)',
-    color: '#004d66'
-  },
-  optionContent: {
-    flex: 1
-  },
-  optionTitle: {
-    fontSize: '1.1rem',
-    fontWeight: '600',
-    marginBottom: '0.25rem',
-    color: '#333'
-  },
-  optionDescription: {
-    fontSize: '0.9rem',
-    color: '#666',
-    margin: 0
-  },
   input: {
     width: '100%',
     padding: '0.75rem 1rem',
@@ -149,11 +95,6 @@ const styles = {
     cursor: 'pointer',
     transition: 'all 0.2s ease-in-out',
     marginTop: '1rem'
-  },
-  buttonGroup: {
-    display: 'flex',
-    gap: '1rem',
-    marginTop: '1.5rem'
   },
   footer: {
     marginTop: '1.5rem',
@@ -248,13 +189,12 @@ const styles = {
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Usamos el hook useAuth
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [showUserTypeSelector, setShowUserTypeSelector] = useState(false);
-  const [userType, setUserType] = useState('');
   const [errors, setErrors] = useState({});
 
   // Cargar el correo electrónico recordado si existe
@@ -270,9 +210,14 @@ const Login = () => {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const savedUserType = localStorage.getItem('userType');
     
-    if (isLoggedIn && savedUserType) {
-      // Redirigir al dashboard correspondiente
-      navigate(`/dashboard/${savedUserType}`);
+    if (isLoggedIn) {
+      if (savedUserType) {
+        // Redirigir al dashboard correspondiente
+        navigate(`/dashboard/${savedUserType}`);
+      } else {
+        // Si está logueado pero no tiene tipo, ir a la selección
+        navigate('/select-user-type');
+      }
     }
   }, [navigate]);
 
@@ -305,228 +250,25 @@ const Login = () => {
     
     setLoading(true);
     
-    // Verificamos primero si el usuario ya tiene un tipo guardado
-    const savedUserType = localStorage.getItem('userType');
-    
     // Simulación de autenticación exitosa
     // En una aplicación real, aquí iría la llamada a la API de autenticación
     setTimeout(() => {
-      // Si ya tiene un tipo de usuario guardado, lo redirigimos directamente
-      if (savedUserType) {
-        // Guardar el estado de autenticación
-        localStorage.setItem('isLoggedIn', 'true');
-        
-        // Guardar el email si "recordar" está activado
-        if (rememberMe) {
-          localStorage.setItem('rememberUser', email);
-        }
-        
-        // Redirigir al dashboard correspondiente
-        navigate(`/dashboard/${savedUserType}`);
+      // Realizar login (solo autenticación, sin establecer tipo de usuario)
+      login();
+      
+      // Guardar el email si "recordar" está activado
+      if (rememberMe) {
+        localStorage.setItem('rememberUser', email);
       } else {
-        // Si no tiene un tipo guardado, mostrar el selector
-        setShowUserTypeSelector(true);
+        localStorage.removeItem('rememberUser');
       }
+      
+      // Redirigir a la pantalla de selección de tipo de usuario
+      navigate('/select-user-type');
+      
       setLoading(false);
     }, 1500);
   };
-
-  const handleUserTypeSelection = (type) => {
-    setUserType(type);
-    
-    // Si seleccionó un tipo, quitar el error
-    if (errors.userType) {
-      const newErrors = {...errors};
-      delete newErrors.userType;
-      setErrors(newErrors);
-    }
-  };
-
-  const handleCompletarIngreso = () => {
-    if (!userType) {
-      setErrors({ ...errors, userType: "Debes seleccionar un tipo de usuario" });
-      return;
-    }
-    
-    setLoading(true);
-    
-    // Guardar información del usuario
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userType', userType);
-    
-    if (rememberMe) {
-      localStorage.setItem('rememberUser', email);
-    } else {
-      localStorage.removeItem('rememberUser');
-    }
-    
-    // Redirigir según el tipo de usuario
-    setTimeout(() => {
-      navigate(`/dashboard/${userType}`);
-      setLoading(false);
-    }, 1000);
-  };
-
-  // Función para limpiar el tipo de usuario guardado
-  const handleClearUserType = () => {
-    // Solo eliminamos el tipo de usuario, mantenemos la sesión y recordatorio de email
-    localStorage.removeItem('userType');
-    setUserType('');
-  };
-
-  // Componente para selector de tipo de usuario
-  const UserTypeSelector = () => {
-    // Verificar si ya tenemos un tipo guardado para mostrarlo como sugerencia
-    const savedUserType = localStorage.getItem('userType');
-    
-    useEffect(() => {
-      // Inicializar el tipo de usuario con el valor guardado (si existe)
-      if (savedUserType && !userType) {
-        setUserType(savedUserType);
-      }
-    }, []);
-    
-    return (
-      <div style={styles.typeSelector} className="user-type-selector">
-        <h2 style={{fontSize: '1.3rem', fontWeight: '600', textAlign: 'center', marginBottom: '0.5rem'}}>
-          ¿Cómo quieres ingresar?
-        </h2>
-        <p style={{fontSize: '0.95rem', color: '#666', textAlign: 'center', marginBottom: '1.5rem'}}>
-          Selecciona tu perfil para continuar
-        </p>
-        
-        {savedUserType && (
-          <div style={{marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem', color: '#666'}}>
-            <p>Tienes guardado el perfil: <strong>{savedUserType === 'inversionista' ? 'Inversionista' : 'Prestatario'}</strong></p>
-            <button 
-              onClick={handleClearUserType}
-              style={{
-                color: '#004d66',
-                background: 'none',
-                border: 'none',
-                fontSize: '0.9rem',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-                marginTop: '0.5rem'
-              }}
-            >
-              Usar otro perfil
-            </button>
-          </div>
-        )}
-        
-        <div style={styles.optionsContainer} className="user-type-options">
-          <button 
-            style={{
-              ...styles.option, 
-              ...(userType === 'inversionista' ? styles.optionSelected : {})
-            }} 
-            className={`user-type-option ${userType === 'inversionista' ? 'selected' : ''}`}
-            onClick={() => handleUserTypeSelection('inversionista')}
-            type="button"
-          >
-            <div style={{...styles.optionIcon, backgroundColor: 'rgba(0, 77, 102, 0.1)', color: '#004d66'}} className="option-icon investor">
-              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
-                <path d="M15 9a3 3 0 1 1-3-3 3 3 0 0 1 3 3z"/>
-                <path d="M6.17 18.89a8 8 0 0 1 11.66 0"/>
-              </svg>
-            </div>
-            <div style={styles.optionContent} className="option-content">
-              <h3 style={styles.optionTitle}>Inversionista</h3>
-              <p style={styles.optionDescription}>Accede a tu portafolio de inversiones</p>
-            </div>
-          </button>
-          
-          <button 
-            style={{
-              ...styles.option, 
-              ...(userType === 'prestatario' ? styles.optionSelected : {})
-            }}
-            className={`user-type-option ${userType === 'prestatario' ? 'selected' : ''}`}
-            onClick={() => handleUserTypeSelection('prestatario')}
-            type="button"
-          >
-            <div style={{...styles.optionIcon, backgroundColor: 'rgba(153, 204, 51, 0.1)', color: '#99cc33'}} className="option-icon borrower">
-              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
-                <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/>
-                <path d="M12 17v-6"/>
-                <path d="M9.5 14.5h5"/>
-              </svg>
-            </div>
-            <div style={styles.optionContent} className="option-content">
-              <h3 style={styles.optionTitle}>Prestatario</h3>
-              <p style={styles.optionDescription}>Gestiona tus créditos y pagos</p>
-            </div>
-          </button>
-        </div>
-        
-        {errors.userType && (
-          <div style={styles.errorMessage} className="error-message">
-            {errors.userType}
-          </div>
-        )}
-        
-        <button 
-          style={{
-            ...styles.primaryButton,
-            opacity: loading ? 0.7 : 1,
-            cursor: loading ? 'not-allowed' : 'pointer'
-          }}
-          className="primary-button"
-          onClick={handleCompletarIngreso}
-          disabled={loading}
-        >
-          {loading ? 'Procesando...' : 'Continuar'}
-        </button>
-      </div>
-    );
-  };
-
-  // Renderizado condicional basado en el estado de autenticación
-  if (showUserTypeSelector) {
-    return (
-      <div style={styles.container} className="auth-container">
-        <div style={styles.logo} className="auth-logo-container">
-          <div style={styles.logoIcon} className="auth-logo">
-            <span>L</span>
-          </div>
-          <h1 style={styles.logoText} className="auth-logo-text">luka</h1>
-        </div>
-        
-        <div style={styles.content} className="auth-content">
-          <UserTypeSelector />
-          {loading && (
-            <div className="loading-spinner" style={{
-              width: '30px',
-              height: '30px',
-              border: '3px solid rgba(0, 77, 102, 0.1)',
-              borderRadius: '50%',
-              borderTopColor: '#004d66',
-              animation: 'spin 1s linear infinite',
-              margin: '1rem auto'
-            }}></div>
-          )}
-        </div>
-        
-        <div style={styles.terms} className="auth-terms">
-          <p>
-            Al iniciar sesión, aceptas nuestros <a href="#" style={styles.link} className="auth-link">Términos y Condiciones</a> y <a href="#" style={styles.link} className="auth-link">Política de Privacidad</a>
-          </p>
-        </div>
-        
-        {/* Animación de keyframes para el spinner */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
-          `
-        }} />
-      </div>
-    );
-  }
 
   // Pantalla de login normal
   return (
