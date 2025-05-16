@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
-
-
 const Home = () => {
   const [cedula, setCedula] = useState('');
   const [nombres, setNombres] = useState('');
@@ -42,7 +40,17 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="content">
-        <h1 className="logo">Luka</h1>
+        {/* Reemplazamos el h1 con la imagen del logo y su texto */}
+        <div className="home-logo-container">
+          <img 
+            // Aseguramos que la ruta sea absoluta con la base URL correcta
+            src={`${process.env.PUBLIC_URL}/assets/logoLuka.png`} 
+            alt="Luka Logo" 
+            className="home-logo-image" 
+          />
+          <h1 className="home-logo-text">luka</h1>
+        </div>
+        
         <p className="tagline">Rompiendo barreras, creando oportunidades</p>
 
         {!registroCompletado ? (

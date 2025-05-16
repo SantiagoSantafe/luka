@@ -71,10 +71,12 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Header mejorado */}
+      {/* Header mejorado con imagen de logo */}
       <header className="dashboard-header">
         <div className="logo-container">
-          <div className="logo"><span>L</span></div>
+          <div className="logo">
+            <img src="/assets/logoLuka.png" alt="Luka Logo" className="logo-image" />
+          </div>
           <h1 className="logo-text">luka</h1>
         </div>
         

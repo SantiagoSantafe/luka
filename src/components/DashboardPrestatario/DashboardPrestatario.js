@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -73,9 +74,12 @@ const DashboardPrestatario = () => {
 
   return (
     <div className="dashboard-container prestatario">
+      {/* Header actualizado con logo */}
       <header className="dashboard-header">
         <div className="logo-container">
-          <div className="logo"><span>L</span></div>
+          <div className="logo">
+            <img src="/assets/logoLuka.png" alt="Luka Logo" className="logo-image" />
+          </div>
           <h1 className="logo-text">luka</h1>
         </div>
         <div className="user-avatar"><User size={20} /></div>
@@ -146,7 +150,8 @@ const DashboardPrestatario = () => {
                   <p><strong>Vencimiento:</strong> {c.fechaPago}</p>
                   <p><strong>Score Luka:</strong> 82/100</p>
                 </div>
-                <Link to={`/credito/${c.id}`} className="view-button">Ver más</Link>              </div>
+                <Link to={`/credito/${c.id}`} className="view-button">Ver más</Link>
+              </div>
             ))}
           </div>
         </section>

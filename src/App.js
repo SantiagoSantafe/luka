@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
 
 // Importar componentes principales
 import Home from './components/Home/Home';
@@ -14,13 +14,11 @@ import NotFound from './components/NotFound';
 import UserTypeSelection from './components/Auth/UserTypeSelection';
 import DetalleCreditoPrestatario from './pages/DetalleCreditoPrestatario';
 
-// Determina si estamos en producción (GitHub Pages) o desarrollo
-const isProduction = process.env.NODE_ENV === 'production';
-const basename = isProduction ? '/luka-main' : '';
-
+// Importante: Usamos HashRouter en lugar de BrowserRouter para GitHub Pages
+// Esto evita problemas con las rutas y no necesita configuración de basename
 function App() {
   return (
-    <Router basename={basename}>
+    <HashRouter>
       <Routes>
         {/* Rutas públicas */}
         <Route path="/" element={<Home />} />
@@ -44,7 +42,7 @@ function App() {
         {/* Página 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </Router>
+    </HashRouter>
   );
 }
 
