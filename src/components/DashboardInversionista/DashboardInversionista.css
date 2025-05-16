@@ -803,4 +803,8 @@
   .card-actions {
     flex-direction: column;
   }
+  .nav-item.active {
+    color: #004d66;
+    font-weight: 600;
+  }
 }

@@ -16,6 +16,13 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './LukaBilletera.css';
+import {
+  Home as HomeIcon,
+  Wallet as WalletIcon,
+  User as UserIcon,
+  TrendingUp as TrendingUpIcon,
+  Calculator
+} from 'lucide-react';
 
 const LukaBilletera = () => {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
@@ -191,7 +198,7 @@ const LukaBilletera = () => {
             <span className="notification-badge">3</span>
           </button>
           <div className="user-avatar">
-            <User size={20} />
+            <UserIcon size={20} />
           </div>
         </div>
       </header>
@@ -246,9 +253,7 @@ const LukaBilletera = () => {
         <div className="history-card">
           <div className="history-header">
             <h2 className="history-title">Historial de Movimientos</h2>
-            <Link to="/historial-completo" className="view-all-link">
-              Ver todos <ChevronRight size={16} />
-            </Link>
+
           </div>
           
           <div className="search-container">
@@ -328,23 +333,27 @@ const LukaBilletera = () => {
 
       {/* Navigation Bar */}
       <nav className="bottom-nav">
-        <Link to="/home" className="nav-item">
-          <Home size={20} />
-          <span>Inicio</span>
-        </Link>
-        <Link to="/dashboard" className="nav-item">
-          <BarChart2 size={20} />
-          <span>Dashboard</span>
-        </Link>
-        <Link to="/billetera" className="nav-item active">
-          <Wallet size={20} />
-          <span>Billetera</span>
-        </Link>
-        <Link to="/perfil" className="nav-item">
-          <User size={20} />
-          <span>Perfil</span>
-        </Link>
-      </nav>
+          <Link to="/" className={`nav-item ${window.location.pathname === '/' ? 'active' : ''}`}>
+            <HomeIcon className="nav-icon" />
+            <span className="nav-label">Inicio</span>
+          </Link>
+          <Link to={`/dashboard/${localStorage.getItem('userType') || 'prestatario'}`} className={`nav-item ${window.location.pathname.includes('/dashboard') ? 'active' : ''}`}>
+            <TrendingUpIcon className="nav-icon" />
+            <span className="nav-label">Dashboard</span>
+          </Link>
+          <Link to="/billetera" className={`nav-item ${window.location.pathname === '/billetera' ? 'active' : ''}`}>
+            <WalletIcon className="nav-icon" />
+            <span className="nav-label">Billetera</span>
+          </Link>
+          <Link to="/calculadora" className={`nav-item ${window.location.pathname === '/calculadora' ? 'active' : ''}`}>
+            <Calculator className="nav-icon" />
+            <span className="nav-label">Calculadora</span>
+          </Link>
+          <Link to="/perfil" className={`nav-item ${window.location.pathname === '/perfil' ? 'active' : ''}`}>
+            <UserIcon className="nav-icon" />
+            <span className="nav-label">Perfil</span>
+          </Link>
+        </nav>
 
       {/* Modal para transacciones */}
       {showTransactionModal && (

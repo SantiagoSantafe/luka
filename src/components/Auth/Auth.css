@@ -1,157 +1,102 @@
-/* Estilos adicionales para Auth.css */
-
-/* Actualizar los pasos del progreso */
-.progress-steps {
+/* Auth.css */
+.auth-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.step {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: var(--border-color);
-  color: var(--text-color);
-  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 500;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  padding: 2rem;
 }
 
-.step.active {
-  background-color: var(--primary-color);
-  color: var(--white);
-}
-
-.step-line {
-  height: 2px;
-  width: 30px;
-  background-color: var(--border-color);
-  margin: 0 5px;
-}
-
-/* Estilos centrados para mensajes de error */
-.error-message.centered {
-  text-align: center;
-  margin-top: 1rem;
-}
-
-/* Espacio adicional arriba */
-.mt-4 {
-  margin-top: 1.5rem;
-}
-
-/* Estilos para el selector de tipo de usuario */
-.user-type-selector {
+.auth-card {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 420px;
 }
 
-.selector-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--text-color);
-  text-align: center;
-}
-
-.selector-description {
-  font-size: 0.95rem;
-  color: var(--text-light);
+.auth-card h2 {
+  font-size: 1.75rem;
+  color: #004d66;
   margin-bottom: 2rem;
   text-align: center;
 }
 
-.user-type-options {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.form-group {
   margin-bottom: 1.5rem;
 }
 
-.user-type-option {
-  display: flex;
-  align-items: center;
-  padding: 1.25rem;
-  background-color: var(--white);
-  border: 2px solid var(--border-color);
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: left;
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"] {
   width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s;
 }
 
-.user-type-option:hover {
-  border-color: var(--primary-color);
-  background-color: rgba(0, 77, 102, 0.03);
+.form-group input:focus {
+  border-color: #004d66;
 }
 
-.user-type-option.selected {
-  border-color: var(--primary-color);
-  background-color: rgba(0, 77, 102, 0.08);
+progress {
+  width: 100%;
+  height: 10px;
+  border-radius: 8px;
+  appearance: none;
+  margin-top: 0.5rem;
 }
 
-.option-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1rem;
-  flex-shrink: 0;
+progress::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 8px;
 }
 
-.option-icon.investor {
-  background-color: rgba(0, 77, 102, 0.1);
-  color: var(--primary-color);
+progress::-webkit-progress-value {
+  background-color: #004d66;
+  border-radius: 8px;
 }
 
-.option-icon.borrower {
-  background-color: rgba(153, 204, 51, 0.1);
-  color: var(--secondary-color);
-}
-
-.option-content {
-  flex: 1;
-}
-
-.option-content h3 {
+.submit-button {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background-color: #004d66;
+  color: white;
+  border: none;
+  border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 0.25rem;
-  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.option-content p {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  margin: 0;
+.submit-button:hover {
+  background-color: #003b50;
 }
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
-  .user-type-option {
-    padding: 1rem;
+  .auth-card {
+    padding: 2rem;
   }
-  
-  .option-icon {
-    width: 48px;
-    height: 48px;
+
+  .auth-card h2 {
+    font-size: 1.5rem;
   }
-  
-  .option-content h3 {
+
+  .submit-button {
     font-size: 1rem;
-  }
-  
-  .option-content p {
-    font-size: 0.8rem;
   }
 }

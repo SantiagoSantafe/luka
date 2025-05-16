@@ -142,25 +142,18 @@ const CalculadoraMicrocreditos = () => {
         </div>
         
         {/* Tabs */}
-        <div className="calculator-tabs">
-          <button 
-            className={`tab-button ${activeTab === 'inversionista' ? 'active' : ''}`}
-            onClick={() => setActiveTab('inversionista')}
-          >
-            <Users size={20} />
-            <span>Modo Inversionista</span>
-          </button>
-          <button 
-            className={`tab-button ${activeTab === 'prestatario' ? 'active' : ''}`}
-            onClick={() => setActiveTab('prestatario')}
-          >
-            <CreditCard size={20} />
-            <span>Modo Prestatario</span>
-          </button>
-        </div>
+        {(localStorage.getItem('userType') || '').toLowerCase() === 'inversionista' ? (
+            <div className="calculadora-inversionista">
+              {/* Aquí va TODO el contenido que estaba antes en activeTab === 'inversionista' */}
+            </div>
+          ) : (
+            <div className="calculadora-prestatario">
+              {/* Aquí va TODO el contenido que estaba antes en activeTab === 'prestatario' */}
+            </div>
+          )}
         
         {/* Modo Inversionista */}
-        {activeTab === 'inversionista' && (
+        {(localStorage.getItem('userType') || '').toLowerCase() === 'inversionista' && (
           <div className="calculator-panel">
             <div className="panel-section">
               <h2 className="section-title">
@@ -324,7 +317,7 @@ const CalculadoraMicrocreditos = () => {
         )}
         
         {/* Modo Prestatario */}
-        {activeTab === 'prestatario' && (
+        {(localStorage.getItem('userType') || '').toLowerCase() === 'prestatario' && (
           <div className="calculator-panel">
             <div className="panel-section">
               <h2 className="section-title">
@@ -518,19 +511,23 @@ const CalculadoraMicrocreditos = () => {
 
       {/* Navigation Bar */}
       <nav className="bottom-nav">
-        <Link to="/home" className="nav-item">
+        <Link to="/" className={`nav-item ${window.location.pathname === '/' ? 'active' : ''}`}>
           <Home size={20} />
           <span>Inicio</span>
         </Link>
-        <Link to="/dashboard" className="nav-item">
+        <Link to={`/dashboard/${localStorage.getItem('userType') || 'prestatario'}`} className={`nav-item ${window.location.pathname.includes('/dashboard') ? 'active' : ''}`}>
           <BarChart2 size={20} />
           <span>Dashboard</span>
+        </Link>
+        <Link to="/billetera" className={`nav-item ${window.location.pathname === '/billetera' ? 'active' : ''}`}>
+          <Wallet size={20} />
+          <span>Billetera</span>
         </Link>
         <Link to="/calculadora" className="nav-item active">
           <Calculator size={20} />
           <span>Calculadora</span>
         </Link>
-        <Link to="/perfil" className="nav-item">
+        <Link to="/perfil" className={`nav-item ${window.location.pathname === '/perfil' ? 'active' : ''}`}>
           <User size={20} />
           <span>Perfil</span>
         </Link>

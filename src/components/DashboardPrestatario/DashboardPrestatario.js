@@ -10,7 +10,7 @@ const DashboardPrestatario = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate('/user-type');
+    navigate('/');
   };
   const [loading, setLoading] = useState(true);
 
@@ -184,17 +184,25 @@ const DashboardPrestatario = () => {
       </main>
 
       <nav className="bottom-nav">
-        <Link to="/home" className="nav-item">
-          <Home size={20} /> <span>Inicio</span>
+        <Link to="/" className={`nav-item ${window.location.pathname === '/' ? 'active' : ''}`}>
+          <Home size={20} />
+          <span>Inicio</span>
         </Link>
-        <Link to="/dashboard" className="nav-item active">
-          <Wallet size={20} /> <span>Crédito</span>
+        <Link to={`/dashboard/${localStorage.getItem('userType') || 'prestatario'}`} className={`nav-item ${window.location.pathname.includes('/dashboard') ? 'active' : ''}`}>
+          <TrendingUp size={20} />
+          <span>Dashboard</span>
         </Link>
-        <Link to="/calculadora" className="nav-item">
-          <TrendingUp size={20} /> <span>Simular</span>
+        <Link to="/billetera" className={`nav-item ${window.location.pathname === '/billetera' ? 'active' : ''}`}>
+          <Wallet size={20} />
+          <span>Billetera Digital</span>
         </Link>
-        <Link to="/perfil" className="nav-item">
-          <User size={20} /> <span>Perfil</span>
+        <Link to="/calculadora" className={`nav-item ${window.location.pathname === '/calculadora' ? 'active' : ''}`}>
+          <TrendingUp size={20} />
+          <span>Calculadora</span>
+        </Link>
+        <Link to="/perfil" className={`nav-item ${window.location.pathname === '/perfil' ? 'active' : ''}`}>
+          <User size={20} />
+          <span>Perfil</span>
         </Link>
       </nav>
     </div>

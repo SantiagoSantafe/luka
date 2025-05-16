@@ -12,7 +12,7 @@ import LukaBilletera from './components/BilleteraDigital/LukaBilletera';
 import CalculadoraMicrocreditos from './components/CalculadoraMicro/CalculadoraMicrocreditos';
 import NotFound from './components/NotFound';
 import UserTypeSelection from './components/Auth/UserTypeSelection';
-import DetalleCreditoPrestatario from './components/pages/DetalleCreditoPrestatario';
+import DetalleCreditoPrestatario from './pages/DetalleCreditoPrestatario';
 
 // Determina si estamos en producción (GitHub Pages) o desarrollo
 const isProduction = process.env.NODE_ENV === 'production';
