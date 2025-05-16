@@ -1,64 +1,480 @@
-.detalle-container {
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #f5f7fa;
+/* DetalleCreditoPrestatario.css */
+
+.detalle-credito-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.detalle-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:hover {
+  background-color: #e5e5e5;
+}
+
+.detalle-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.estado-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #e5f7ed;
+  color: #0d8a4e;
+}
+
+.estado-badge.mora {
+  background-color: #ffe5e5;
+  color: #d32f2f;
+}
+
+.estado-badge.pendiente {
+  background-color: #fff8e1;
+  color: #ff8f00;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #0d4a75;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 100px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.detalle-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detalle-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.detalle-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.info-icon {
+  color: #0d4a75;
+  background-color: #f0f7ff;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.info-item h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0 0 4px 0;
+}
+
+.info-item p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.progreso-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+}
+
+.progreso-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.progreso-stats {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.progreso-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: #0d4a75;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.progreso-bar-container {
+  padding: 0 10px;
+}
+
+.progreso-bar {
+  height: 12px;
+  background-color: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progreso-completado {
+  height: 100%;
+  background-color: #0d4a75;
+  border-radius: 6px;
+}
+
+.progreso-porcentaje {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.detalle-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.pago-proximo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fecha-pago {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fecha-icon {
+  color: #0d4a75;
+  background-color: #f0f7ff;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.fecha-pago h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0 0 4px 0;
+}
+
+.fecha-pago p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.monto-pago {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #f0f7ff;
+  border-radius: 8px;
+}
+
+.monto-label {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.monto-valor {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0d4a75;
+}
+
+.pagar-ahora-btn {
+  background-color: #0d4a75;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.pagar-ahora-btn:hover {
+  background-color: #083658;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.score-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.score-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.current-score {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0d4a75;
+}
+
+.max-score {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.score-info {
+  text-align: center;
+}
+
+.score-info p {
+  margin: 4px 0;
+  color: #334155;
+}
+
+.score-tip {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.destino-info {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.destino-icon {
+  color: #0d4a75;
+  background-color: #f0f7ff;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.destino-info p {
+  margin: 0;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.pagos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pago-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.pago-item:hover {
+  background-color: #f0f7ff;
+}
+
+.pago-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.pago-fecha-numero {
+  display: flex;
+  flex-direction: column;
+}
+
+.pago-numero {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.pago-fecha {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.pago-monto {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.pago-estado {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.pago-estado.pagado {
+  background-color: #e5f7ed;
+  color: #0d8a4e;
+}
+
+.pago-estado.pendiente {
+  background-color: #fff8e1;
+  color: #ff8f00;
+}
+
+.pagar-cuota-btn {
+  background-color: #0d4a75;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pagar-cuota-btn:hover {
+  background-color: #083658;
+}
+
+.acciones-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.accion-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.accion-btn.descargar {
+  background-color: #f8fafc;
+  color: #0d4a75;
+  border: 1px solid #0d4a75;
+}
+
+.accion-btn.descargar:hover {
+  background-color: #f0f7ff;
+}
+
+.accion-btn.soporte {
+  background-color: #f0f7ff;
+  color: #0d4a75;
+}
+
+.accion-btn.soporte:hover {
+  background-color: #e0eeff;
+}
+
+@media (max-width: 768px) {
+  .detalle-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .back-button {
-    background: none;
-    border: none;
-    color: #004d66;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 1rem;
+
+  .detalle-cards-row {
+    grid-template-columns: 1fr;
   }
-  
-  .calendario-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+
+  .info-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .cuota-card {
-    border-radius: 8px;
-    padding: 1rem;
-    color: white;
-    text-align: center;
-    font-weight: 600;
+
+  .pago-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
-  
-  .cuota-card.pagado {
-    background-color: #4caf50;
+
+  .acciones-container {
+    flex-direction: column;
   }
-  
-  .cuota-card.proximo {
-    background-color: #ffc107;
+
+  .accion-btn {
+    width: 100%;
   }
-  
-  .cuota-card.pendiente {
-    background-color: #f44336;
-  }
-  
-  .pago-button {
-    margin-top: 1.5rem;
-    background-color: #004d66;
-    color: white;
-    padding: 0.75rem 1.25rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  
-  .calculadora-section {
-    margin-top: 2rem;
-    background: #ffffff;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  }
+}

@@ -329,12 +329,13 @@ const DashboardInversionista = () => {
                 </div>
                 
                 <div className="investment-actions">
-                  <button className="view-details-btn">
+                  {/* Modificado para usar la ruta simplificada */}
+                  <Link to={`/credito/${investment.id}`} className="view-details-btn">
                     Ver detalles
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
-                  </button>
+                  </Link>
                   <button className="withdraw-investment-btn">
                     Retirar inversión
                     <ArrowUpCircle size={16} />

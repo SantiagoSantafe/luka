@@ -37,7 +37,9 @@ function App() {
         <Route path="/billetera" element={<LukaBilletera />} />
         <Route path="/calculadora" element={<CalculadoraMicrocreditos />} />
         <Route path="/configuracion" element={<ConfiguracionAvanzada />} />
-        <Route path="/detalle-credito" element={<DetalleCreditoPrestatario />} />
+        
+        {/* Ruta para el detalle de crédito de prestatario */}
+        <Route path="/credito/:id" element={<DetalleCreditoPrestatario />} />
 
         {/* Página 404 */}
         <Route path="*" element={<NotFound />} />
