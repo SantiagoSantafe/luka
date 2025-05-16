@@ -7,7 +7,8 @@ const LukaHeader = ({ showNotifications = true, showUserAvatar = true }) => {
       <div className="logo-container">
         <div className="logo">
           <img 
-            src={process.env.PUBLIC_URL + '/assets/logoLuka.jpg'} 
+            // Usamos una ruta absoluta con process.env.PUBLIC_URL para asegurar que la imagen se carga correctamente
+            src={`${process.env.PUBLIC_URL}/assets/logoLuka.png`} 
             alt="Luka Logo" 
             className="logo-image" 
           />

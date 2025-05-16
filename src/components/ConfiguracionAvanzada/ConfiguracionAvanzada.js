@@ -104,7 +104,7 @@ const ConfiguracionAvanzada = () => {
       <header className={`flex items-center justify-between p-4 ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
         <div className="logo-container">
           <div className="logo">
-            <img src="/assets/logoLuka.jpg" alt="Luka Logo" className="logo-image" />
+            <img src="/assets/logoLuka.png" alt="Luka Logo" className="logo-image" />
           </div>
           <h1 className="logo-text">luka</h1>
         </div>
