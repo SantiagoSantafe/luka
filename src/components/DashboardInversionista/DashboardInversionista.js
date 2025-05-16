@@ -127,11 +127,11 @@ const DashboardInversionista = () => {
 
   return (
     <div className="dashboard-container inversionista">
-      {/* Header */}
+      {/* Header con logo actualizado */}
       <header className="dashboard-header">
         <div className="logo-container">
           <div className="logo">
-            <span>L</span>
+            <img src="/assets/logoLuka.jpg" alt="Luka Logo" className="logo-image" />
           </div>
           <h1 className="logo-text">luka</h1>
         </div>

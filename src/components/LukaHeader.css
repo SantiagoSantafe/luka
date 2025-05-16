@@ -1,0 +1,119 @@
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #004d66;
+  margin: 0;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-button {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4d4f;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #555;
+  cursor: pointer;
+}
+/* Estilos adicionales para el logo en la página Home */
+.home-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.home-logo-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.home-logo-text {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #004d66;
+  margin: 0;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .home-logo-image {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .home-logo-text {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-logo-image {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .home-logo-text {
+    font-size: 1.8rem;
+  }
+}

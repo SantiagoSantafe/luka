@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Wallet, 
@@ -9,8 +10,7 @@ import {
   Search,
   BarChart2,
   CreditCard,
-  Home,
-  User,
+  User as UserIcon,
   Calendar,
   AlertCircle
 } from 'lucide-react';
@@ -19,10 +19,12 @@ import './LukaBilletera.css';
 import {
   Home as HomeIcon,
   Wallet as WalletIcon,
-  User as UserIcon,
+  User as UserIcon2,
   TrendingUp as TrendingUpIcon,
   Calculator
 } from 'lucide-react';
+import LukaHeader from '../LukaHeader'; // Import the new header component
+
 
 const LukaBilletera = () => {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
@@ -184,24 +186,8 @@ const LukaBilletera = () => {
   
   return (
     <div className="billetera-container">
-      {/* Header */}
-      <header className="billetera-header">
-        <div className="logo-container">
-          <div className="logo">
-            <span>L</span>
-          </div>
-          <h1 className="logo-text">luka</h1>
-        </div>
-        <div className="user-section">
-          <button className="notification-button">
-            <Bell size={20} />
-            <span className="notification-badge">3</span>
-          </button>
-          <div className="user-avatar">
-            <UserIcon size={20} />
-          </div>
-        </div>
-      </header>
+      {/* Usar el nuevo componente de header */}
+      <LukaHeader />
 
       {/* Main Content */}
       <main className="billetera-content">
@@ -253,7 +239,6 @@ const LukaBilletera = () => {
         <div className="history-card">
           <div className="history-header">
             <h2 className="history-title">Historial de Movimientos</h2>
-
           </div>
           
           <div className="search-container">
@@ -350,7 +335,7 @@ const LukaBilletera = () => {
             <span className="nav-label">Calculadora</span>
           </Link>
           <Link to="/perfil" className={`nav-item ${window.location.pathname === '/perfil' ? 'active' : ''}`}>
-            <UserIcon className="nav-icon" />
+            <UserIcon2 className="nav-icon" />
             <span className="nav-label">Perfil</span>
           </Link>
         </nav>

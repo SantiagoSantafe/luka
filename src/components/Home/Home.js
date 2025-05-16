@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
-
-
+import '../LogoStyles.css'; // Estilos compartidos del logo
 
 const Home = () => {
   const [cedula, setCedula] = useState('');
@@ -42,7 +41,16 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="content">
-        <h1 className="logo">Luka</h1>
+        {/* Reemplazamos el h1 con la imagen del logo y su texto, usando una ruta relativa */}
+        <div className="home-logo-container">
+          <img 
+            src={process.env.PUBLIC_URL + '/assets/logoLuka.jpg'} 
+            alt="Luka Logo" 
+            className="home-logo-image" 
+          />
+          <h1 className="home-logo-text">luka</h1>
+        </div>
+        
         <p className="tagline">Rompiendo barreras, creando oportunidades</p>
 
         {!registroCompletado ? (
