@@ -1,25 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './DashboardInversionista.css';
-import { TrendingUp, Users, Clock, BarChart2, Download, DollarSign, PieChart, CreditCard, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+
+// Al importar los iconos, asegúrate de que la ruta sea correcta
+// y que los nombres coincidan exactamente con los nombres de los componentes en la biblioteca
+import { 
+  TrendingUp, 
+  Users, 
+  Clock, 
+  BarChart2, 
+  Download, 
+  DollarSign, 
+  PieChart, 
+  CreditCard, 
+  ArrowUpCircle, 
+  ArrowDownCircle 
+} from 'lucide-react';
 
 const DashboardInversionista = () => {
+  const navigate = useNavigate();
+  const [showMoveMoneyModal, setShowMoveMoneyModal] = useState(false);
+  const [moveAmount, setMoveAmount] = useState('');
+  const [moveType, setMoveType] = useState('deposit');
+  const [loading, setLoading] = useState(true);
+
   const [userData, setUserData] = useState({
     nombre: 'Carlos',
     saldoDisponible: 2500000,
     rentabilidadTotal: 12.5,
     inversionesActivas: 3,
     inversionesCompletadas: 2,
-    totalMicrocreditosApoyados: 100, // Nuevo dato para mostrar el impacto
-    rendimientoMensual: 25000, // Rendimiento mensual estimado
-    rendimientoAnual: 312500, // Rendimiento anual proyectado
+    totalMicrocreditosApoyados: 100,
+    rendimientoMensual: 25000,
+    rendimientoAnual: 312500,
   });
 
-  const [loading, setLoading] = useState(true);
-  const [showMoveMoneyModal, setShowMoveMoneyModal] = useState(false);
-  const [moveType, setMoveType] = useState('');
-  const [moveAmount, setMoveAmount] = useState('');
-  
   const [investments, setInvestments] = useState([
     {
       id: 1,
@@ -50,7 +65,6 @@ const DashboardInversionista = () => {
     }
   ]);
 
-  // Datos para la visualización del impacto social
   const [impactStats, setImpactStats] = useState({
     emprendedores: 65,
     mujeres: 48,
@@ -59,11 +73,9 @@ const DashboardInversionista = () => {
   });
 
   useEffect(() => {
-    // Simular carga de datos del usuario
     const timer = setTimeout(() => {
       setLoading(false);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -81,6 +93,10 @@ const DashboardInversionista = () => {
   const handleWithdraw = () => {
     setMoveType('withdraw');
     setShowMoveMoneyModal(true);
+  };
+  
+  const handleCalculadora = () => {
+    navigate('/calculadora');
   };
 
   const handleInvestMore = () => {
@@ -125,6 +141,48 @@ const DashboardInversionista = () => {
     );
   }
 
+  // Iconos personalizados para la barra de navegación
+  // Estos son los SVGs completos para asegurar compatibilidad
+  const IconHome = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </svg>
+  );
+
+  const IconDashboard = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+  );
+
+  const IconWallet = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+      <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+      <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
+    </svg>
+  );
+
+  const IconCalculator = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="16" height="20" x="4" y="2" rx="2" />
+      <line x1="8" x2="16" y1="6" y2="6" />
+      <line x1="16" x2="16" y1="14" y2="18" />
+      <path d="M8 14h.01" />
+      <path d="M12 14h.01" />
+      <path d="M8 18h.01" />
+      <path d="M12 18h.01" />
+    </svg>
+  );
+
+  const IconUser = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+
   return (
     <div className="dashboard-container inversionista">
       {/* Header */}
@@ -159,7 +217,7 @@ const DashboardInversionista = () => {
           <h2 className="welcome-message">¡Buenos días, {userData.nombre}!</h2>
         </div>
         
-        {/* Sección de impacto social - ACTUALIZADA CON ESTILOS EN LÍNEA */}
+        {/* Sección de impacto social */}
         <div className="impact-section">
           <div className="impact-card">
             <div className="impact-header">
@@ -216,7 +274,7 @@ const DashboardInversionista = () => {
             </div>
           </div>
           
-          {/* Card de Rentabilidad mejorada - NUEVA */}
+          {/* Card de Rentabilidad mejorada */}
           <div className="summary-card earnings">
             <h3 className="card-title">Rentabilidad de tus inversiones</h3>
             <div className="earnings-details">
@@ -241,7 +299,7 @@ const DashboardInversionista = () => {
           </div>
         </div>
         
-        {/* Stats de inversión - Mejores visuales */}
+        {/* Stats de inversión */}
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-icon">
@@ -329,7 +387,6 @@ const DashboardInversionista = () => {
                 </div>
                 
                 <div className="investment-actions">
-                  {/* Modificado para usar la ruta simplificada */}
                   <Link to={`/credito/${investment.id}`} className="view-details-btn">
                     Ver detalles
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
@@ -355,7 +412,7 @@ const DashboardInversionista = () => {
           </div>
         </section>
         
-        {/* Sección de reportes descargables - NUEVA */}
+        {/* Sección de reportes descargables */}
         <section className="reports-section">
           <h3 className="section-title">Reportes y certificados</h3>
           <div className="reports-grid">
@@ -437,37 +494,35 @@ const DashboardInversionista = () => {
           </div>
         </div>
       )}
-        <nav className="bottom-nav">
+
+      {/* Navegación inferior con componentes de iconos internos para mayor compatibilidad */}
+      <nav className="bottom-nav">
         <Link to="/" className={`nav-item ${window.location.pathname === '/' ? 'active' : ''}`}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
+          <IconHome />
           <span>Inicio</span>
         </Link>
 
         <Link to={`/dashboard/${localStorage.getItem('userType') || 'prestatario'}`} className={`nav-item ${window.location.pathname.includes('/dashboard') ? 'active' : ''}`}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-          </svg>
+          <IconDashboard />
           <span>Dashboard</span>
         </Link>
 
         <Link to="/billetera" className={`nav-item ${window.location.pathname === '/billetera' ? 'active' : ''}`}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
-            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
-            <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
-          </svg>
+          <IconWallet />
           <span>Billetera Digital</span>
         </Link>
 
+        {/* Link a la calculadora con componente interno para garantizar compatibilidad */}
+        <Link 
+          to="/calculadora" 
+          className={`nav-item ${window.location.pathname === '/calculadora' ? 'active' : ''}`}
+        >
+          <IconCalculator />
+          <span>Calculadora</span>
+        </Link>
+
         <Link to="/perfil" className={`nav-item ${window.location.pathname === '/perfil' ? 'active' : ''}`}>
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+          <IconUser />
           <span>Perfil</span>
         </Link>
       </nav>
